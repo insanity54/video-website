@@ -93,8 +93,8 @@ const doUploadFile = (fileName) => {
 
 const waitForNewVideos = () => {
   chokidar.watch(VIDEO_DIRECTORY).on('all', (event, path) => {
-    console.log(event, path);
     if (event === 'unlink' && videoPartRegex.test(path)) {
+      debug(`unlink ${path}`)
       // a video .mp4.part file was just unlinked which suggests that the video recording just finished.
       doProcessVideo(path);
     }
