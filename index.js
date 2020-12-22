@@ -39,11 +39,6 @@ const webpageOutputDir = path.join(__dirname, 'dist');
 const dataDir = path.join(__dirname, '_data');
 const tmpDir = path.join(__dirname, 'tmp');
 
-// init
-// let db = new nedb({
-//   filename: path.join(__dirname, 'db/vods.nedb'),
-//   autoload: true
-// });
 
 
 const doGenerateThumbnail = async (videoPath) => {
@@ -95,16 +90,6 @@ const doUploadFile = (fileName) => {
     })
 }
 
-const testPinataAuthentication = () => {
-  const url = `https://api.pinata.cloud/data/testAuthentication`;
-  return axios
-    .get(url, {
-      headers: {
-        'pinata_api_key': PINATA_API_KEY,
-        'pinata_secret_api_key': PINATA_SECRET_API_KEY
-      }
-    })
-};
 
 const waitForNewVideos = () => {
   chokidar.watch(VIDEO_DIRECTORY).on('all', (event, path) => {

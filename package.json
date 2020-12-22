@@ -1,6 +1,6 @@
 {
   "name": "video-website",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Input: directory of videos. Output: static HTML website which lists videos in an RSS feed",
   "main": "index.js",
   "scripts": {
