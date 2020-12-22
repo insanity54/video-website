@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>🔞💦 Future Porn</title>
+    <meta name="description" content="Site description">
+
+    <meta property="og:title" content="🔞💦 Future Porn">
+    <meta property="og:description" content="3D porno for futurist perverts everywhere">
+    <meta property="og:image" content="img/site-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="css/style.css" />
+
+  </head>
+  <body>
+
+    <header>
+      <h1>
+        <a href="#home">🔞💦 Future Porn</a>
+      </h1>
+      <nav>
+        <a href="#about">About</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <section id="home"> <!-- HOME -->
+
+        {% for vod in vods %}
+          <figure>
+            <h3>{{ vod.title }}</h3>
+            <video controls poster="{% buildIpfsUrl vod.thumbnailHash %}">
+              <source src="{% buildIpfsUrl vod.videoHash %}" type="video/mp4">
+            </video>
+            <figcaption><a href="ipfs://{{ vod.videoHash }}">IPFS {{ vod.videoHash }}</a></figcaption>
+          </figure>
+        {% endfor %}
+
+      </section>
+
+      <section id="about"> <!-- ABOUT -->
+
+
+        <p>FuturePorn is a <a href="//twitter.com/projektmelody">ProjektMelody</a> fan website made by <a href="https://grimtech.net/about">Chris Grimmett</a>. I created this website because I love naps. While napping, I often missed Melody's Chaturbate streams, and I was sad that there was no VOD immediately available. I got to work making an automated way to record her streams so I could watch later, and never miss a thing!</p>
+
+        <h2>IPFS</h2>
+        <p>FuturePorn serves all image thumbnails and video using <a href="//ipfs.io">IPFS, the Inter-Planetary File System</a>. IPFS is a new and exciting way of saving and accessing data on the internet.</p>
+        <p>IPFS introduces the concept of file pinning, which is a fancy way of mirroring a file. People who run an IPFS node on their computer can pin files they like, and immediately the file is replicated to their computer and can be served to other people who want access to that same file.</p>
+        <p>As a file becomes more popular and more pinned, IPFS enables even faster download times because bits of the file are coming from several severs instead of just one.</p>
+        <p>File servers can come and go, yet the content stays accessible so long as the file remains popular enough to be pinned by people willing to share their bandwidth.</p>
+        <p>Running IPFS on your computer is completely optional, but if you'd like to get started, I recommend <a href="https://docs.ipfs.io/install/ipfs-desktop/">IPFS Desktop</a> and <a href="https://docs.ipfs.io/install/ipfs-companion/">IPFS Companion</a>.</p>
+        <p>As the name implies, IPFS is built to be a filesystem for the space age. Let's make ProjektMelody the first porn on Mars!</p>
+
+        <h2>About the Developer</h2>
+        <p>Are you in need of a web developer? I am in need of work! Contact me via <a href="mailto:chris@grimtech.net">e-mail</a> or see <a href="https://grimtech.net/contact">my contact page</a> for alternative methods.</p>
+
+      </section>
+
+
+
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
