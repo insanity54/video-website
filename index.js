@@ -3,7 +3,7 @@
 require('dotenv').config();
 const debug = require('debug')('video-website');
 const globby = require('globby');
-const generatePreview = require('ffmpeg-generate-video-preview');
+const Prevvy = require('prevvy');
 const axios = require('axios');
 const chokidar = require('chokidar');
 const fs = require('fs');
@@ -34,6 +34,7 @@ const PINATA_API_KEY = envImport('PINATA_API_KEY');
 
 // constants
 const channelNameRegex = /(\S+)\s/;
+const dateRegex = /\S+\s(\d+\d+\d+)/;
 const videoPartRegex = /.*\.mp4.part/;
 const webpageOutputDir = path.join(__dirname, 'dist');
 const dataDir = path.join(__dirname, '_data');
@@ -42,16 +43,16 @@ const tmpDir = path.join(__dirname, 'tmp');
 
 
 const doGenerateThumbnail = async (videoPath) => {
+  // videoPath = videoPath.replace(/[\\()$'"\s]/g, '\\$&');
   debug(`generating a video preview for ${videoPath}`);
-  const { output } = await generatePreview({
+  const prevvy = new Prevvy({
     input: videoPath,
-    output: `${videoPath}.jpg`,
+    output: `${videoPath}.png`,
     width: 256,
-    rows: 3,
     cols: 5,
-    margin: 4,
-    padding: 4
-  })
+    rows: 3
+  });
+  const { output } = await prevvy.generate();
   return output;
 };
 
@@ -65,6 +66,7 @@ const doGenerateTitle = (fileName) => {
 
 // upload a file to Pinata (IPFS)
 const doUploadFile = (fileName) => {
+  debug(`uploading ${fileName}`);
   const pinataOptions = JSON.stringify({
     wrapWithDirectory: false
   });
@@ -76,7 +78,8 @@ const doUploadFile = (fileName) => {
     .post('https://api.pinata.cloud/pinning/pinFileToIPFS',
       data,
       {
-        maxContentLength: 'Infinity',
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
         headers: {
           'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
           'pinata_api_key': PINATA_API_KEY,
@@ -102,7 +105,9 @@ const waitForNewVideos = () => {
 }
 
 const getChannelName = (title) => {
-  return title.match(channelNameRegex)[1];
+  let parse = title.match(channelNameRegex)
+  if (!parse) throw new Error(`The video title, "${title}" doesn't match the required format.`);
+  return parse[1];
 }
 
 const doProcessVideo = async (videoPath) => {
@@ -113,7 +118,7 @@ const doProcessVideo = async (videoPath) => {
   // 5. delete the source video
 
   videoPath = videoPath.split('.').slice(0, -1).join('.');
-  debug(`videoPath is ${videoPath}`)
+  debug(`videoPath is ${videoPath}`);
   let title = doGenerateTitle(videoPath);
   let channel = getChannelName(title);
   let thumbnailPath = await doGenerateThumbnail(videoPath);
@@ -133,6 +138,17 @@ const doProcessVideo = async (videoPath) => {
   debug(`video processing has completed.`)
 }
 
+const getDateFromTitle = (title) => {
+  let o = title.match(dateRegex);
+  let date;
+  if (!o) {
+    date = new Date();
+  } else {
+    date = new Date(o[1])
+  }
+  return date;
+}
+
 const saveVodData = async (channel, title, videoHash, thumbnailHash) => {
   debug(`saving vod channel:${channel}, title:${title}, videoHash:${videoHash}, thumbnailHash:${thumbnailHash}`);
   let saveFile = path.join(dataDir, 'vods.json');
@@ -142,7 +158,8 @@ const saveVodData = async (channel, title, videoHash, thumbnailHash) => {
   } catch (e) {
     existingData = [];
   }
-  let newData = { channel, title, videoHash, thumbnailHash };
+  let date = getDateFromTitle(title);
+  let newData = { channel, title, videoHash, thumbnailHash, date };
   existingData.push(newData);
   return fsp
     .writeFile(saveFile, JSON.stringify(existingData))
@@ -181,7 +198,7 @@ const doClean = async (paths) => {
   } else {
     debug(`deleting the following files:`);
     let unlinkP = paths.map((p) => {
-      debug(`  * ${filePath}`);
+      debug(`  * ${p}`);
       return fsp.unlink(p);
     })
     return Promise.all(unlinkP);
