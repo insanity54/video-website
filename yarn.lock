@@ -2040,11 +2040,12 @@ pretty@^2.0.0:
     js-beautify "^1.6.12"
 
 prevvy@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.1.0.tgz#c1a7c4917cea5e401b941f2ff74b69695b32904c"
-  integrity sha512-PTWZ5S5ekhTkhAVUmzf9WPn+ci/6/gcgmwuFDu/CXdBEu0FCMSfzpYtm8tILoA1EOS6u7G9qrez0q/LZMSaTgg==
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.2.4.tgz#aa670dc094ad2726a0c86de1947f3de6ab722382"
+  integrity sha512-Ibh5r8fylqUXezUNNyeooGCUhn18u28JbLqSv6XZMIUXes6smFSakiXi5etKvTCX+L2PGQqkUR1rmWIjUfYUUQ==
   dependencies:
     bluebird "^3.7.2"
+    fluent-ffmpeg "^2.1.2"
     luxon "^1.25.0"
 
 promise-each@^2.2.0:
