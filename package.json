@@ -8,7 +8,8 @@
     "serve": "light-server -s ./dist -p 7000",
     "dev": "supervisor -- --trace-warnings --unhandled-rejections=strict ./index.js",
     "e2e": "cd tmp && rm -f NBA*.mp4 && youtube-dl -f worst --external-downloader-args '-t 1' https://www.twitch.tv/nba",
-    "build": "DEBUG=\"11ty\" npx @11ty/eleventy"
+    "build": "DEBUG=\"11ty\" npx @11ty/eleventy",
+    "start": "node index"
   },
   "repository": {
     "type": "git",
