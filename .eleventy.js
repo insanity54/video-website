@@ -9,7 +9,7 @@ module.exports = function(eleventyConfig) {
     return new CleanCSS({}).minify(code).styles;
   });
   eleventyConfig.addShortcode("buildIpfsUrl", function(urlFragment) {
-    return `//ipfs.io/ipfs/${urlFragment}`;
+    return `https://ipfs.io/ipfs/${urlFragment}`;
   });
   return {
     dir: {
