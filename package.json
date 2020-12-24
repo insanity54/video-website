@@ -34,7 +34,7 @@
     "jstransformer-handlebars": "^1.1.0",
     "neocities-extended": "https://github.com/thatcomputerguy0101/neocities-node-extended",
     "node-fetch": "^2.6.1",
-    "prevvy": "^3.0.0"
+    "prevvy": "^2.2.4"
   },
   "devDependencies": {
     "supervisor": "^0.12.0"
