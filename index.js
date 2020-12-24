@@ -4,7 +4,8 @@ require('dotenv').config();
 const debug = require('debug')('video-website');
 const globby = require('globby');
 const Prevvy = require('prevvy');
-const axios = require('axios');
+// const axios = require('axios');
+const fetch = require('node-fetch');
 const chokidar = require('chokidar');
 const fs = require('fs');
 const fsp = fs.promises;
@@ -74,22 +75,21 @@ const doUploadFile = (fileName) => {
   data.append('file', fs.createReadStream(fileName));
   data.append('pinataOptions', pinataOptions);
 
-  return axios
-    .post('https://api.pinata.cloud/pinning/pinFileToIPFS',
-      data,
-      {
-        maxContentLength: Infinity,
-        maxBodyLength: Infinity,
-        headers: {
-          'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-          'pinata_api_key': PINATA_API_KEY,
-          'pinata_secret_api_key': PINATA_SECRET_API_KEY
-        }
-      }
-    )
+  debug(data.getHeaders());
+  const options = {
+    method: 'POST',
+    body: data,
+    headers: {
+      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      'pinata_api_key': PINATA_API_KEY,
+      'pinata_secret_api_key': PINATA_SECRET_API_KEY
+    }
+  }
+  return fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', options)
     .then((res) => {
+      debug(res.body);
       if (res.status !== 200) throw new Error(`${res.status} ${res.statusText}`);
-      else return res.data.IpfsHash
+      else return res.body.IpfsHash
     })
 }
 
