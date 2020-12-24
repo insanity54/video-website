@@ -2040,9 +2040,9 @@ pretty@^2.0.0:
     js-beautify "^1.6.12"
 
 prevvy@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.0.0.tgz#95e57cda3be2de5ec91cac908ad9a5bace6b9860"
-  integrity sha512-i21bK/vurO/bjCOt+NQEaqc5LISLdas1V7us1Tm0Pe4Dvcibo4Bd3VxC6iANJQvUkYHEYDEwSkZokBIOUbM11w==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.1.0.tgz#c1a7c4917cea5e401b941f2ff74b69695b32904c"
+  integrity sha512-PTWZ5S5ekhTkhAVUmzf9WPn+ci/6/gcgmwuFDu/CXdBEu0FCMSfzpYtm8tILoA1EOS6u7G9qrez0q/LZMSaTgg==
   dependencies:
     bluebird "^3.7.2"
     luxon "^1.25.0"
