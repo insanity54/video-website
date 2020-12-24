@@ -75,7 +75,6 @@ const doUploadFile = (fileName) => {
   data.append('file', fs.createReadStream(fileName));
   data.append('pinataOptions', pinataOptions);
 
-  debug(data.getHeaders());
   const options = {
     method: 'POST',
     body: data,
@@ -87,10 +86,12 @@ const doUploadFile = (fileName) => {
   }
   return fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', options)
     .then((res) => {
-      debug(res.body);
-      if (res.status !== 200) throw new Error(`${res.status} ${res.statusText}`);
-      else return res.body.IpfsHash
-    })
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      return res.json();
+    }).then((data) => {
+      debug(data);
+      return data.IpfsHash;
+    });
 }
 
 
