@@ -6,5 +6,6 @@ COPY --from=0 / /
 
 WORKDIR /futureporn
 COPY . .
+RUN npm install
 
 CMD [ "npm", "run", "start" ]
