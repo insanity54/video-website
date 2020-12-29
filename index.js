@@ -4,7 +4,6 @@ require('dotenv').config();
 const debug = require('debug')('video-website');
 const globby = require('globby');
 const Prevvy = require('prevvy');
-// const axios = require('axios');
 const fetch = require('node-fetch');
 const chokidar = require('chokidar');
 const fs = require('fs');
