@@ -15,7 +15,6 @@ const Eleventy = require("@11ty/eleventy");
 
 
 
-
 // env vars
 
 const envImport = (name) => {
@@ -95,6 +94,7 @@ const doUploadFile = (fileName) => {
 
 
 const waitForNewVideos = () => {
+  // eww
   chokidar.watch(VIDEO_DIRECTORY).on('all', (event, path) => {
     if (event === 'unlink' && videoPartRegex.test(path)) {
       debug(`unlink ${path}`)
@@ -102,6 +102,13 @@ const waitForNewVideos = () => {
       doProcessVideo(path);
     }
   });
+  // @todo this would be nice. https://github.com/insanity54/video-website/issues/4
+  // voddo
+  //   .watch('https://chaturbate.com/projektmelody/')
+  //   .on('complete', (path) => {
+  //     debug('The livestream has completed.')
+  //     doProcessVideo(path);
+  //   })
 }
 
 const getChannelName = (title) => {

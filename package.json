@@ -9,7 +9,9 @@
     "dev": "supervisor -- --trace-warnings --unhandled-rejections=strict ./index.js",
     "e2e": "cd tmp && rm -f NBA*.mp4 && youtube-dl -f worst --external-downloader-args '-t 1' https://www.twitch.tv/nba",
     "build": "DEBUG=\"11ty\" npx @11ty/eleventy",
-    "start": "node index"
+    "download": "node_modules/voddo/voddo.sh https://chaturbate.com/projektmelody/",
+    "process": "node index",
+    "start": "concurrently \"npm:process\" \"npm:download\""
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
     "@11ty/eleventy-plugin-rss": "^1.0.9",
     "chokidar": "^3.4.3",
     "clean-css": "^4.2.3",
+    "concurrently": "^5.3.0",
     "debug": "^4.3.1",
     "dotenv": "^8.2.0",
     "fluent-ffmpeg": "^2.1.2",
@@ -33,6 +36,7 @@
     "globby": "^11.0.1",
     "jstransformer-handlebars": "^1.1.0",
     "neocities-extended": "https://github.com/thatcomputerguy0101/neocities-node-extended",
+    "voddo": "https://gitlab.com/insanity54/voddo",
     "node-fetch": "^2.6.1",
     "prevvy": "^2.3.0"
   },
