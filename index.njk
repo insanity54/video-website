@@ -37,7 +37,10 @@
             <video controls poster="{% buildIpfsUrl vod.thumbnailHash %}">
               <source src="{% buildIpfsUrl vod.videoHash %}" type="video/mp4">
             </video>
-            <figcaption><a href="ipfs://{{ vod.videoHash }}">IPFS {{ vod.videoHash }}</a></figcaption>
+            <figcaption>
+              <h3>IPFS</h3>
+              <a href="ipfs://{{ vod.videoHash }}">ipfs://{{ vod.videoHash }}</a> <a href="https://ipfs.io/ipfs/{{ vod.videoHash }}">https://ipfs.io/ipfs/{{ vod.videoHash }}</a>
+            </figcaption>
           </figure>
         {% endfor %}
 
