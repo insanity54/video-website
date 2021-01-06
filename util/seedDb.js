@@ -3,7 +3,7 @@
 require('dotenv').config();
 
 const envImport = require('../lib/envImport');
-const data = require('./seedData.json');
+const data = require('./seedDataTiny.json');
 
 const Redis = require("ioredis");
 const redisConnectionDetails = {

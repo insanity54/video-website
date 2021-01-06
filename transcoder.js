@@ -109,14 +109,51 @@ const downloadTranscodeAndUpload = async (hash) => {
 }
 
 
-const obs = fromEvent(subscriber, "message")
+fromEvent(subscriber, "message")
   .pipe(
     map(e => e[1]), // get the hash from [ 'futureporn:ripper', ipfshash ]
     flatMap(downloadTranscodeAndUpload)
-  );
+  ).subscribe((hash) => {
+    console.log(`finishing up with ${hash} value`);
+    publisher.publish(writeChannel, hash);
+  });
 
 
-obs.subscribe((hash) => {
-  console.log(`finishing up with ${hash} value`);
-  publisher.publish(writeChannel, hash);
-});
+// when starting, check with redis to see if there is work
+client
+  .smembers('futureporn:vods')
+  .then((hashes) => {
+    // compile a list of GET commands and then execute them
+    let keys = hashes.map((hash) => `futureporn:vod:${hash}`);
+    let gets = keys.map((key) => ['get', key]);
+    return client.multi(gets).exec();
+  })
+  .then((res) => {
+    // catch any errors
+    return res.map((r) => {
+      if (r[0] !== null) throw r[0]; // throw if error
+      return r[1];
+    })
+  })
+  .then((res) => {
+    // JSON parse
+    return res.map((r) => {
+      return JSON.parse(r);
+    })
+  })
+  .then((data) => {
+    // find the first vod without a 360p video
+    return data.find((d) => typeof d.video360Hash === 'undefined');
+  })
+  .then(async (vod) => {
+    // transcode
+    let videoFilePath = await doDownloadFile(vod.videoSrcHash);
+    let video360pPath = await doTranscode360(videoFilePath);
+    let video360Hash = await doUploadFile(video360pPath);
+    let newData = doMergeMetadata(vod, { video360Hash });
+    return client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
+  })
+  .catch((e) => {
+    console.error('there was a problem while finding work via redis.')
+    console.error(e);
+  })
