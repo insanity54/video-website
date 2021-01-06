@@ -4,7 +4,7 @@
     <a href="{{ vod.url | url }}" class="vodlist-link">
     {% if vod.data.title %}{{ vod.data.title }}<br>
       {% if vod.data.thinHash %}
-        <img src="{% buildIpfsUrl vod.data.thinHash %}"/>
+        <img class="preview-image" src="{% buildIpfsUrl vod.data.thinHash %}"/>
       {% else %}
         <div class="no-preview-image"></div>
       {% endif %}

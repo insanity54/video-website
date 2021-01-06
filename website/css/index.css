@@ -225,8 +225,15 @@ a[href].direct-link:focus:visited,
   color: #aaa;
 }
 
+img.preview-image {
+
+}
+
 div.no-preview-image {
   display: inline-block;
+}
+
+.preview-image, .no-preview-image {
   width: 640px;
   height: 72px;
   background-image: linear-gradient(to bottom right, #353fff, #ec008c);
