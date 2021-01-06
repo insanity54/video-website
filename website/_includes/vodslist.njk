@@ -1,0 +1,21 @@
+<ol reversed class="vodlist" style="counter-reset: start-from {{ (vodslistCounter or vodslist.length) + 1 }}">
+{% for vod in vodslist | reverse %}
+  <li class="vodlist-item{% if vod.url == url %} vodlist-item-active{% endif %}">
+    <a href="{{ vod.url | url }}" class="vodlist-link">
+    {% if vod.data.title %}{{ vod.data.title }}<br>
+      {% if vod.data.thinHash %}
+        <img src="{% buildIpfsUrl vod.data.thinHash %}"/>
+      {% else %}
+        <div class="no-preview-image"></div>
+      {% endif %}
+    {% else %}<code>{{ vod.url }}</code>{% endif %}</a>
+    <time class="vodlist-date" datetime="{{ vod.date | htmlDateString }}">{{ vod.date | readableDate }}</time>
+    {% for tag in vod.data.tags %}
+      {%- if collections.tagList.indexOf(tag) != -1 -%}
+      {% set tagUrl %}/tags/{{ tag }}/{% endset %}
+      <a href="{{ tagUrl | url }}" class="vod-tag">{{ tag }}</a>
+      {%- endif -%}
+    {% endfor %}
+  </li>
+{% endfor %}
+</ol>

@@ -1,0 +1,13 @@
+---
+layout: layouts/home.njk
+eleventyNavigation:
+  key: Home
+  order: 1
+---
+
+
+<h1>Latest Vods</h1>
+
+{% set vodslist = collections.vods %}
+{% set vodslistCounter = collections.vods | length %}
+{% include "vodslist.njk" %}
