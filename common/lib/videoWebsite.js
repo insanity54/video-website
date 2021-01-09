@@ -20,7 +20,6 @@ const DANGER_ZONE = (process.env.DANGER_ZONE === 'true') ? true : false;
 if (typeof DANGER_ZONE === 'undefined') throw new Error(uem('DANGER_ZONE'))
 const NEOCITIES_SUBDOMAIN = envImport('NEOCITIES_SUBDOMAIN');
 const NEOCITIES_API_KEY = envImport('NEOCITIES_API_KEY');
-const VIDEO_DIRECTORY = envImport('VIDEO_DIRECTORY'); // the dir where recorded videos are saved. This program will react to new videos.
 const PINATA_SECRET_API_KEY = envImport('PINATA_SECRET_API_KEY');
 const PINATA_API_KEY = envImport('PINATA_API_KEY');
 
