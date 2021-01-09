@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 
-const voddo = require('/home/chris/Documents/voddo');
 
 const {
   doClean,
@@ -18,9 +17,9 @@ const {
   waitForNewVideos,
   buildMetadata,
   doGeneratePages
-} = require('./lib/videoWebsite');
+} = require('common/lib/videoWebsite');
 
-const envImport = require('./lib/envImport');
+const envImport = require('common/lib/envImport');
 
 
 const Redis = require("ioredis");

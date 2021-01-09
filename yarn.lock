@@ -706,6 +706,11 @@ commander@^5.1.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
   integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
+common@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/common/-/common-0.2.5.tgz#3c7182f678bd1e3681cd5cc348c759fe8dd22394"
+  integrity sha1-PHGC9ni9HjaBzVzDSMdZ/o3SI5Q=
+
 component-bind@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/component-bind/-/component-bind-1.0.0.tgz#00c608ab7dcd93897c0009651b1d3a8e1e73bbd1"
@@ -2618,7 +2623,7 @@ pretty@^2.0.0:
     extend-shallow "^2.0.1"
     js-beautify "^1.6.12"
 
-prevvy@^2.3.0:
+prevvy@2.3.0, prevvy@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.3.0.tgz#c96620dd7ad52698ad559ee3b9086917aa5a8ebb"
   integrity sha512-PFKRDn+wMvubdyTzKCxLCNap6bYXwfMB2t+u34u8oBYg0mzLoLDI/8DxrC/9CHATpyXtXulVT1a/xSCDcPmd6A==
@@ -2985,7 +2990,7 @@ rxjs@^5.5.6:
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.5.2:
+rxjs@^6.5.2, rxjs@^6.6.3:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
@@ -3596,9 +3601,13 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"voddo@https://gitlab.com/insanity54/voddo":
-  version "0.0.1"
-  resolved "https://gitlab.com/insanity54/voddo#5b01242757987ef778a4193296892febaec18d12"
+"voddo@https://gitlab.com/insanity54/voddo#8bac2a2da1bef5bb32a79e589910652fcb0c0bc6":
+  version "0.0.3"
+  resolved "https://gitlab.com/insanity54/voddo#8bac2a2da1bef5bb32a79e589910652fcb0c0bc6"
+  dependencies:
+    debug "^4.3.1"
+    rxjs "^6.6.3"
+    youtube-dl-wrap "^2.0.0"
 
 void-elements@^2.0.1:
   version "2.0.1"
@@ -3843,3 +3852,8 @@ yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
   integrity sha1-AI4G2AlDIMNy28L47XagymyKxBk=
+
+youtube-dl-wrap@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/youtube-dl-wrap/-/youtube-dl-wrap-2.0.0.tgz#3494f0242760422b9191d37379355a1f34c23e8a"
+  integrity sha512-xuYU2AulIrCcQ93f0J9SiEftqmRqxoxjSTRfCjtsghNWNjboDYFWuH1s2P12x3eJsR2Iwg/QjndhYrTGfT33wA==

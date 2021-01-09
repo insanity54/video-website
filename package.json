@@ -23,7 +23,7 @@
     "builder": "node builder",
     "e2e": "cd tmp && rm -f NBA*.mp4 && youtube-dl -f worst --external-downloader-args '-t 1' https://www.twitch.tv/nba",
     "build": "npm run build:scripts && npm run build:website",
-    "build:scripts": "cp node_modules/plyr/dist/plyr.min.js js/ && cp node_modules/plyr/dist/plyr.css css/",
+    "build:scripts": "cp node_modules/plyr/dist/plyr.min.js.map node_modules/plyr/dist/plyr.min.js website/js/ && cp node_modules/plyr/dist/plyr.css website/css/",
     "build:website": "npx @11ty/eleventy"
   },
   "repository": {
@@ -55,11 +55,12 @@
     "markdown-it-anchor": "^6.0.1",
     "neocities-extended": "https://github.com/thatcomputerguy0101/neocities-node-extended",
     "node-fetch": "^2.6.1",
-    "prevvy": "^2.3.0",
-    "voddo": "https://gitlab.com/insanity54/voddo"
+    "prevvy": "^2.3.0"
   },
   "devDependencies": {
     "plyr": "^3.6.3",
     "supervisor": "^0.12.0"
-  }
+  },
+  "private": true,
+  "workspaces": ["common", "ripper", "builder", "transcoder"]
 }

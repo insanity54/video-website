@@ -12,7 +12,8 @@ const {
   map,
 } = require('rxjs/operators');
 
-const voddo = require('/home/chris/Documents/voddo');
+//const voddo = require('voddo'); @todo
+const voddo = require('/home/chris/Documents/voddo/voddo.js');
 
 const {
   doClean,
@@ -27,9 +28,9 @@ const {
   getChannelName,
   waitForNewVideos,
   buildMetadata
-} = require('./lib/videoWebsite');
+} = require('common/lib/videoWebsite');
 
-const envImport = require('./lib/envImport');
+const envImport = require('common/lib/envImport');
 
 
 const Redis = require("ioredis");

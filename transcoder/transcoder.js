@@ -32,6 +32,8 @@ const {
 } = require('./lib/videoWebsite');
 const envImport = require('./lib/envImport');
 
+const Promise = require('bluebird');
+
 const {
   doTranscode360
 } = require('./lib/transcode');
@@ -108,7 +110,7 @@ const downloadTranscodeAndUpload = async (hash) => {
   return hash;
 }
 
-
+// listen to redis for a message on the futureporn channel
 fromEvent(subscriber, "message")
   .pipe(
     map(e => e[1]), // get the hash from [ 'futureporn:ripper', ipfshash ]
@@ -117,6 +119,21 @@ fromEvent(subscriber, "message")
     console.log(`finishing up with ${hash} value`);
     publisher.publish(writeChannel, hash);
   });
+
+const transcodeSingleVideo = async (vod) => {
+  let videoFilePath = await doDownloadFile(vod.videoSrcHash);
+  let video360pPath = await doTranscode360(videoFilePath);
+  let video360Hash = await doUploadFile(video360pPath);
+  let newData = doMergeMetadata(vod, { video360Hash });
+  return client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
+}
+
+const transcodeAllVideos = (data) => {
+  // compile a list of datums without a 360p encode
+  const joblist = data.filter((d) => typeof d.video360Hash === 'undefined');
+  return new Promise.mapSeries(joblist, transcodeSingleVideo);
+}
+
 
 
 // when starting, check with redis to see if there is work
@@ -141,18 +158,7 @@ client
       return JSON.parse(r);
     })
   })
-  .then((data) => {
-    // find the first vod without a 360p video
-    return data.find((d) => typeof d.video360Hash === 'undefined');
-  })
-  .then(async (vod) => {
-    // transcode
-    let videoFilePath = await doDownloadFile(vod.videoSrcHash);
-    let video360pPath = await doTranscode360(videoFilePath);
-    let video360Hash = await doUploadFile(video360pPath);
-    let newData = doMergeMetadata(vod, { video360Hash });
-    return client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
-  })
+  .then(transcodeAllVideos)
   .catch((e) => {
     console.error('there was a problem while finding work via redis.')
     console.error(e);

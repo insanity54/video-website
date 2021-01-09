@@ -34,6 +34,7 @@ const webpageOutputDir = path.join(projectRootPath, 'dist');
 const webpageInputDir = path.join(projectRootPath, 'website');
 const dataDir = path.join(webpageInputDir, '_data');
 const tmpDir = path.join(projectRootPath, 'tmp');
+const vodsDir = path.join(webpageInputDir, 'vods');
 
 
 /**
@@ -266,10 +267,24 @@ const savePageMarkdown = async (datum) => {
     `date: ${vob(date)}\n`+
     'layout: layouts/vod.njk\n'+
     '---\n';
-  let saveFile = path.join(webpageInputDir, 'vods', `${channel}_${date}.md`);
+  let saveFile = path.join(vodsDir, `${channel}_${date}.md`);
   return fsp
     .writeFile(saveFile, template)
 }
+
+const deleteAllPages = async () => {
+  debug('starting fresh')
+  let files = await fsp.readdir(vodsDir);
+  let unlinksP = files.map((f) => {
+    const { ext } = path.parse(f);
+    if (ext === '.md') {
+      const file = path.join(vodsDir, f);
+      return fsp.unlink(file);
+    }
+  })
+  return Promise.all(unlinksP);
+}
+
 
 /**
  * For each datum, render a markdown file in <project_root>/website/vods
@@ -279,6 +294,8 @@ const savePageMarkdown = async (datum) => {
  */
 const doGeneratePages = async (data) => {
   debug('generating pages from data');
+  // first we delete all markdown, so the redis db remains our source of truth
+  await deleteAllPages();
   let count = 0;
   data.forEach((datum) => {
     savePageMarkdown(datum);

@@ -20,6 +20,7 @@ const doTranscode360 = (fileName) => {
     ffmpeg(fileName)
       .size('?x360')
       .save(outputVideoPath)
+      .on('progress', (prog) => debug(`Processing ${fileName}: ${prog.percent} done`))
       .on('end', (stderr, stdout) => {
         if (stderr) reject(stderr);
         resolve(outputVideoPath);

@@ -7,21 +7,21 @@ templateClass: tmpl-Vod
 <video id="player" style="--plyr-color-main:#353fff;" controls data-poster="{% buildIpfsUrl thiccHash if thiccHash else '' %}">
   {# we originally called it videoHash, but then we switched to videoSrcHash #}
   {%- if videoSrcHash %}
-    <source src="{% buildIpfsUrl videoSrcHash %}" type="video/mp4">
+    <source src="{% buildIpfsUrl videoSrcHash %}" size="1080" type="video/mp4">
   {% else %}
-    <source src="{% buildIpfsUrl videoHash %}" type="video/mp4">
+    <source src="{% buildIpfsUrl videoHash %}" size="1080" type="video/mp4">
   {% endif %}
 
   {%- if video720Hash %}
-    <source src="{% buildIpfsUrl video720Hash %}" type="video/mp4">
+    <source src="{% buildIpfsUrl video720Hash %}" size="720" type="video/mp4">
   {% endif %}
 
   {%- if video480Hash %}
-    <source src="{% buildIpfsUrl video480Hash %}" type="video/mp4">
+    <source src="{% buildIpfsUrl video480Hash %}" size="480" type="video/mp4">
   {% endif %}
 
   {%- if video360Hash %}
-    <source src="{% buildIpfsUrl video360Hash %}" type="video/mp4">
+    <source src="{% buildIpfsUrl video360Hash %}" size="360" type="video/mp4">
   {% endif %}
 </video>
 
