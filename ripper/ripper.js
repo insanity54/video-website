@@ -12,7 +12,7 @@ const {
   map,
 } = require('rxjs/operators');
 
-const voddo = require('voddo'); @todo
+const voddo = require('voddo');
 
 const {
   doClean,
