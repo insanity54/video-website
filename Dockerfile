@@ -11,6 +11,6 @@ RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/yout
 
 WORKDIR /futureporn
 COPY . .
-RUN npm install
+RUN yarn install
 
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "run", "start" ]
