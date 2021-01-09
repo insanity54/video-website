@@ -13,7 +13,7 @@ const Neocities = require('neocities-extended');
 const Eleventy = require("@11ty/eleventy");
 const { DateTime } = require('luxon');
 const envImport = require('./envImport');
-const voddo = require('/home/chris/Documents/voddo');
+const voddo = require('voddo');
 
 // env vars
 const DANGER_ZONE = (process.env.DANGER_ZONE === 'true') ? true : false;
