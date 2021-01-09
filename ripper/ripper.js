@@ -12,8 +12,7 @@ const {
   map,
 } = require('rxjs/operators');
 
-//const voddo = require('voddo'); @todo
-const voddo = require('/home/chris/Documents/voddo/voddo.js');
+const voddo = require('voddo'); @todo
 
 const {
   doClean,
