@@ -7,6 +7,6 @@
   "dependencies": {
     "common": "0.2.5",
     "prevvy": "2.3.0",
-    "voddo": "https://gitlab.com/insanity54/voddo#8bac2a2da1bef5bb32a79e589910652fcb0c0bc6"
+    "voddo": "^0.0.4"
   }
 }

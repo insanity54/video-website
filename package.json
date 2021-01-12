@@ -14,7 +14,7 @@
     "supervise": "supervisor -- --trace-warnings --unhandled-rejections=strict ./index.js",
     "dev": "concurrently npm:dev:transcoder npm:dev:builder",
     "dev:db": "concurrently npm:dev:redis npm:dev:redis-ui",
-    "dev:redis": "docker run --rm --name futureporn_redis -p 6379:6379 redis",
+    "dev:redis": "docker rm -f futureporn_redis > /dev/null 2>&1; docker run --rm --name futureporn_redis -p 6379:6379 redis",
     "dev:redis-ui": "redis-commander",
     "dev:ripper": "supervisor -- --trace-warnings --unhandled-rejections=strict ripper.js",
     "dev:transcoder": "supervisor -- --trace-warnings --unhandled-rejections=strict transcoder.js",
@@ -23,9 +23,10 @@
     "transcoder": "node transcoder",
     "builder": "node builder",
     "e2e": "cd tmp && rm -f NBA*.mp4 && youtube-dl -f worst --external-downloader-args '-t 1' https://www.twitch.tv/nba",
-    "build": "npm run build:scripts && npm run build:website",
+    "build": "npm run build:docker",
     "build:scripts": "cp node_modules/plyr/dist/plyr.min.js.map node_modules/plyr/dist/plyr.min.js website/js/ && cp node_modules/plyr/dist/plyr.css website/css/",
-    "build:website": "npx @11ty/eleventy"
+    "build:website": "npx @11ty/eleventy",
+    "build:docker": "docker build -t futureporn"
   },
   "repository": {
     "type": "git",
@@ -56,7 +57,8 @@
     "markdown-it-anchor": "^6.0.1",
     "neocities-extended": "https://github.com/thatcomputerguy0101/neocities-node-extended",
     "node-fetch": "^2.6.1",
-    "prevvy": "^2.3.0"
+    "prevvy": "^2.3.0",
+    "voddo": "0.0.4"
   },
   "devDependencies": {
     "plyr": "^3.6.3",

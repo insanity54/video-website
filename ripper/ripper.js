@@ -2,16 +2,6 @@
 
 require('dotenv').config();
 
-const {
-  fromEvent,
-  from
-} = require('rxjs');
-
-const {
-  flatMap,
-  map,
-} = require('rxjs/operators');
-
 const voddo = require('voddo');
 
 const {
@@ -25,12 +15,11 @@ const {
   doProcessVideo,
   doMinVideoProcess,
   getChannelName,
-  waitForNewVideos,
   buildMetadata
 } = require('common/lib/videoWebsite');
 
 const envImport = require('common/lib/envImport');
-
+const channelUrl = envImport('CHANNEL_URL');
 
 const Redis = require("ioredis");
 const redisConnectionDetails = {
@@ -40,6 +29,8 @@ const redisConnectionDetails = {
 };
 const client = new Redis(redisConnectionDetails);
 const publisher = new Redis(redisConnectionDetails);
+
+console.log(`ripping ${channelUrl} ASAP.`);
 
 client.on("error", (err) => console.log(err));
 publisher.on("error", (error) => console.log(error));
@@ -59,14 +50,24 @@ const saveMetadata = (metadata) => {
 };
 
 
-const vee = voddo.watch(["https://chaturbate.com/projektmelody"], 1000*5, 1000*60*1);
-const ripObs = fromEvent(vee, "complete");
-const processObs = ripObs.pipe(flatMap(doMinVideoProcess));
-const uploadObs = processObs.pipe(flatMap(doUploadFiles));
-const metadataObs = uploadObs.pipe(map(buildMetadata));
-const saveObs = metadataObs.pipe(flatMap(saveMetadata));
 
-saveObs.subscribe(hash => {
-  console.log(`publishing hash ${hash} on the redis channel futureporn:ripper`)
-  publisher.publish("futureporn:ripper", hash);
-});
+
+const initialDelay = 1000*5;
+const maxDelay = 1000*60*8;
+
+
+const process = async (fileName) => {
+  console.log(`${channelUrl} stream has completed. Stream saved to ${fileName}`);
+  const processRes = await doMinVideoProcess(fileName);
+  console.log(`video processing has completed.`);
+  const uploadRes = await doUploadFiles(processRes);
+  console.log(`upload complete.`);
+  const metadata = await buildMetadata(uploadRes);
+  console.log(metadata);
+  const saveRes = await saveMetadata(metadata);
+  console.log(`metadata has been saved to the db`);
+}
+
+
+const vee = voddo.watch([channelUrl], initialDelay, maxDelay);
+vee.on('complete', (process));

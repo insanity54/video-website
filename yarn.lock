@@ -3601,9 +3601,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"voddo@https://gitlab.com/insanity54/voddo#8bac2a2da1bef5bb32a79e589910652fcb0c0bc6":
-  version "0.0.3"
-  resolved "https://gitlab.com/insanity54/voddo#8bac2a2da1bef5bb32a79e589910652fcb0c0bc6"
+voddo@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/voddo/-/voddo-0.0.4.tgz#746389e4a7bc63fd107aa0e763b6c1a09b18a6e9"
+  integrity sha512-j7nS8chUG5/Rb+1Pr40ZlwdoNcxk5Yi630Li4kXMPGVoLXZ0jxoU5I8u3nrfTWGlCfapwyboc2ag9P9w+2QExQ==
   dependencies:
     debug "^4.3.1"
     rxjs "^6.6.3"
