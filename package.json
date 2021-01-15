@@ -58,12 +58,11 @@
     "neocities-extended": "https://github.com/thatcomputerguy0101/neocities-node-extended",
     "node-fetch": "^2.6.1",
     "prevvy": "^2.3.0",
-    "voddo": "0.0.4"
+    "voddo": "0.0.5"
   },
   "devDependencies": {
     "plyr": "^3.6.3",
     "supervisor": "^0.12.0"
   },
-  "private": true,
-  "workspaces": ["common", "ripper", "builder", "transcoder"]
+  "private": true
 }

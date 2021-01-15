@@ -29,14 +29,14 @@ const {
   waitForNewVideos,
   saveMetadata,
   doMergeMetadata
-} = require('./lib/videoWebsite');
-const envImport = require('./lib/envImport');
+} = require('../common/lib/videoWebsite');
+const envImport = require('../common/lib/envImport');
 
 const Promise = require('bluebird');
 
 const {
   doTranscode360
-} = require('./lib/transcode');
+} = require('../common/lib/transcode');
 
 const readChannel = 'futureporn:ripper';
 const writeChannel = 'futureporn:transcoder';

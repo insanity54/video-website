@@ -2,7 +2,7 @@
 // based on the value of env var FUNCTION
 
 require('dotenv').config();
-const envImport = require('common/lib/envImport');
+const envImport = require('./common/lib/envImport');
 const f = envImport('FUNCTION');
 
 if (f === 'ripper') {

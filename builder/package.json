@@ -1,7 +1,0 @@
-{
-  "name": "builder",
-  "version": "0.0.1",
-  "dependencies": {
-    "common": "^0.0.1"
-  }
-}

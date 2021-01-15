@@ -16,9 +16,9 @@ const {
   doMinVideoProcess,
   getChannelName,
   buildMetadata
-} = require('common/lib/videoWebsite');
+} = require('../common/lib/videoWebsite');
 
-const envImport = require('common/lib/envImport');
+const envImport = require('../common/lib/envImport');
 const channelUrl = envImport('CHANNEL_URL');
 
 const Redis = require("ioredis");
@@ -69,5 +69,5 @@ const process = async (fileName) => {
 }
 
 
-const vee = voddo.watch([channelUrl], initialDelay, maxDelay);
-vee.on('complete', (process));
+const vee = voddo.watch(channelUrl, initialDelay, maxDelay);
+vee.on('complete', process);
