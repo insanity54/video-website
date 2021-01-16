@@ -44,10 +44,10 @@ const vodsDir = path.join(webpageInputDir, 'vods');
 const buildMetadata = (data) => {
   const { videoSrcHash, thiccHash, thinHash, title } = data;
   const metadata = {
-    title: title,
-    thiccHash: thiccHash, // this is teh wide and tall thumbnail which serves as the video poster
-    thinHash: thinHash, // this is the wide and short thumbnail which is shown on the main page
-    videoSrcHash: videoSrcHash, // the source video IPFS hash. also serves as an ID in redis.
+    title: title || '',
+    thiccHash: thiccHash || '', // this is teh wide and tall thumbnail which serves as the video poster
+    thinHash: thinHash || '', // this is the wide and short thumbnail which is shown on the main page
+    videoSrcHash: videoSrcHash || '', // the source video IPFS hash. also serves as an ID in redis.
     video720Hash: '',
     video480Hash: '',
     video360Hash: '' // SD for the rest of the world (and me!)

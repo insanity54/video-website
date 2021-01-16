@@ -58,11 +58,11 @@ const maxDelay = 1000*60*8;
 
 const process = async (fileName) => {
   console.log(`${channelUrl} stream has completed. Stream saved to ${fileName}`);
-  const processRes = await doMinVideoProcess(fileName);
   console.log(`video processing has completed.`);
-  const uploadRes = await doUploadFiles(processRes);
+  const videoSrcHash = await doUploadFile(fileName);
+  const title = doGenerateTitle(fileName);
   console.log(`upload complete.`);
-  const metadata = await buildMetadata(uploadRes);
+  const metadata = await buildMetadata({ videoSrcHash, title });
   console.log(metadata);
   const saveRes = await saveMetadata(metadata);
   console.log(`metadata has been saved to the db`);
