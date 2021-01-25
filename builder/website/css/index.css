@@ -1,12 +1,14 @@
 :root {
   --red: #C5004A;
   --darkred: #7F0036;
-  --lightgray: #e0e0e0;
+  --lightgray: #333333;
   --gray: #C0C0C0;
-  --darkgray: #333;
+  --darkgray: #141414;
   --navy: #17050F;
   --blue: #082840;
   --white: #fff;
+  --highlight: #6749d7;
+  --title: #856fd7;
 }
 * {
   box-sizing: border-box;
@@ -16,8 +18,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: system-ui, sans-serif;
-  color: var(--darkgray);
-  background-color: var(--white);
+  color: var(--highlight);
+  background-color: var(--darkgray);
 }
 p:last-child {
   margin-bottom: 0;
@@ -31,11 +33,14 @@ p,
 .tmpl-vod li {
   line-height: 1.45;
 }
+hr {
+  border-color: var(--lightgray);
+}
 a[href] {
-  color: var(--blue);
+  color: var(--highlight);
 }
 a[href]:visited {
-  color: var(--navy);
+  color: var(--highlight);
 }
 main {
   padding: 1rem;

@@ -1,3 +1,20 @@
+# Futureporn
+
+## colorscheme
+
+### title
+
+--highlight: #6749D7
+
+### text
+
+--textcolor: #856FD7
+
+### background
+
+--bgcolor: #141414
+
+## some random output
 
 2021-01-13T01:32:23.986686608Z
 2021-01-13T01:32:23.987363568Z 2021-01-13T01:32:23.987Z video-website generating a video preview for [Chaturbate] projektmelody: Downloading webpage

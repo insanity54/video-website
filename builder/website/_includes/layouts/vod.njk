@@ -50,7 +50,7 @@ templateClass: tmpl-Vod
 <hr>
 <ul>
   {%- set nextVod = collections.vods | getNextCollectionItem(page) %}
-  {%- if nextVod %}<li>Next: <a href="{{ nextVod.url | url }}">{{ nextVod.data.title }}</a></li>{% endif %}
+  {%- if nextVod %}<li>Next VOD: <a href="{{ nextVod.url | url }}">{{ nextVod.data.title }}</a></li>{% endif %}
   {%- set previousVod = collections.vods | getPreviousCollectionItem(page) %}
-  {%- if previousVod %}<li>Previous: <a href="{{ previousVod.url | url }}">{{ previousVod.data.title }}</a></li>{% endif %}
+  {%- if previousVod %}<li>Previous VOD: <a href="{{ previousVod.url | url }}">{{ previousVod.data.title }}</a></li>{% endif %}
 </ul>

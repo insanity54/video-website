@@ -14,6 +14,8 @@ const Eleventy = require("@11ty/eleventy");
 const { DateTime } = require('luxon');
 const envImport = require('./envImport');
 const voddo = require('voddo');
+const execa = require('execa');
+
 
 // env vars
 const DANGER_ZONE = (process.env.DANGER_ZONE === 'true') ? true : false;
@@ -28,9 +30,9 @@ const PINATA_API_KEY = envImport('PINATA_API_KEY');
 const channelNameRegex = /(\S+)\s/;
 const dateRegex = /\S+\s(\d+-\d+-\d+)/;
 const videoPartRegex = /.*\.mp4.part/;
-const projectRootPath =  path.join(__dirname, '..');
-const webpageOutputDir = path.join(projectRootPath, 'dist');
-const webpageInputDir = path.join(projectRootPath, 'website');
+const projectRootPath =  path.join(__dirname, '..', '..');
+const webpageOutputDir = path.join(projectRootPath, 'builder', '_site');
+const webpageInputDir = path.join(projectRootPath, 'builder', 'website');
 const dataDir = path.join(webpageInputDir, '_data');
 const tmpDir = path.join(projectRootPath, 'tmp');
 const vodsDir = path.join(webpageInputDir, 'vods');
@@ -304,14 +306,13 @@ const doGeneratePages = async (data) => {
 }
 
 const doBuildWebpage = async () => {
-    debug('building webpage');
-  	let eleventy = new Eleventy();
-  	await eleventy.init();
-  	await eleventy.write();
+    debug(`building webpage in ${webpageInputDir}`);
+  	let eleventyProcess = await execa('eleventy', '', { cwd: path.join(webpageInputDir, '..') });
     return webpageOutputDir;
 }
 
 const doUploadWebsite = async (distPath) => {
+  if (typeof distPath === 'undefined') throw new Error('distPath argument passed to doUploadWebsite must be a path on disk. Got undefined.');
   var api = new Neocities(NEOCITIES_API_KEY);
   return new Promise((resolve, reject) => {
     debug(`uploading files to neocities. distPath:${distPath}`);

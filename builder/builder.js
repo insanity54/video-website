@@ -17,9 +17,9 @@ const {
   waitForNewVideos,
   buildMetadata,
   doGeneratePages
-} = require('common/lib/videoWebsite');
+} = require('../common/lib/videoWebsite');
 
-const envImport = require('common/lib/envImport');
+const envImport = require('../common/lib/envImport');
 
 
 const Redis = require("ioredis");
@@ -31,7 +31,7 @@ const redisConnectionDetails = {
 const client = new Redis(redisConnectionDetails);
 const subscriber = new Redis(redisConnectionDetails);
 const publisher = new Redis(redisConnectionDetails);
-
+//
 client.on("error", (err) => console.log(err));
 subscriber.on("error", (error) => console.log(error));
 publisher.on("error", (error) => console.log(error));
@@ -70,14 +70,24 @@ const loadMetadata = async () => {
     })
 };
 
-// when receiving a message, we build the site.
-subscriber.on('message', async (msg) => {
-  console.log(`Building the website. msg:${msg}`);
+const doBuildProcess = async () => {
+  console.log(`Building the website.`);
   const metadata = await loadMetadata();
   console.log('got metadata');
   console.log(metadata);
   const count = await doGeneratePages(metadata);
   const dir = await doBuildWebpage();
-  // console.log('Uploading the website.');
-  // await doUploadWebsite();
+  console.log(`webpage outputted to ${dir}`);
+  console.log('Uploading the website.');
+  await doUploadWebsite(dir);
+  console.log('build process completed.');
+}
+
+// build the site when a message is heard on the futureporn:transcoder channel
+subscriber.on('message', async (msg) => {
+  doBuildProcess();
 });
+
+
+// do the build process on startup
+doBuildProcess();
