@@ -60,26 +60,6 @@ subscriber.subscribe(readChannel, (err, count) => {
 });
 
 
-// subscriber.on('message', (msg) => {
-//   const ipfsHash = msg.map(e => e[1]);
-//   let doDownloadFile()
-// });
-
-// get the vod data
-//   {
-//   title: title,
-//   thiccHash: thiccHash, // this is teh wide and tall thumbnail which serves as the video poster
-//   thinHash: thinHash, // this is the wide and short thumbnail which is shown on the main page
-//   videoSrcHash: videoSrcHash, // the source video IPFS hash. also serves as an ID in redis.
-//   video720Hash: '',
-//   video480Hash: '',
-//   video360Hash: '' // SD for the rest of the world (and me!)
-// }
-// transcode
-// upload
-// save
-// publish
-
 const doLoadMetadata = async (hash) => {
   const data = await client.get(`futureporn:vod:${hash}`);
   let d;
@@ -125,7 +105,8 @@ const transcodeSingleVideo = async (vod) => {
   let video360pPath = await doTranscode360(videoFilePath);
   let video360Hash = await doUploadFile(video360pPath);
   let newData = doMergeMetadata(vod, { video360Hash });
-  return client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
+  await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
+  return publisher.publish(writeChannel, vod.video360Hash);
 }
 
 const transcodeAllVideos = (data) => {
@@ -136,30 +117,43 @@ const transcodeAllVideos = (data) => {
 
 
 
+const doTranscodeProcess = () => {
+  client
+    .smembers('futureporn:vods')
+    .then((hashes) => {
+      // compile a list of GET commands and then execute them
+      let keys = hashes.map((hash) => `futureporn:vod:${hash}`);
+      let gets = keys.map((key) => ['get', key]);
+      return client.multi(gets).exec();
+    })
+    .then((res) => {
+      // catch any errors
+      return res.map((r) => {
+        if (r[0] !== null) throw r[0]; // throw if error
+        return r[1];
+      })
+    })
+    .then((res) => {
+      // JSON parse
+      return res.map((r) => {
+        return JSON.parse(r);
+      })
+    })
+    .then(transcodeAllVideos)
+    .catch((e) => {
+      console.error('there was a problem while finding work via redis.')
+      console.error(e);
+    })
+    .then(() => {
+      console.log('Transcode process complete.')
+    })
+}
+
+
 // when starting, check with redis to see if there is work
-client
-  .smembers('futureporn:vods')
-  .then((hashes) => {
-    // compile a list of GET commands and then execute them
-    let keys = hashes.map((hash) => `futureporn:vod:${hash}`);
-    let gets = keys.map((key) => ['get', key]);
-    return client.multi(gets).exec();
-  })
-  .then((res) => {
-    // catch any errors
-    return res.map((r) => {
-      if (r[0] !== null) throw r[0]; // throw if error
-      return r[1];
-    })
-  })
-  .then((res) => {
-    // JSON parse
-    return res.map((r) => {
-      return JSON.parse(r);
-    })
-  })
-  .then(transcodeAllVideos)
-  .catch((e) => {
-    console.error('there was a problem while finding work via redis.')
-    console.error(e);
-  })
+doTranscodeProcess();
+
+subscriber.on('message', (msg) => {
+  console.log(`subscriber emitted message ${msg}`)
+  console.log(`  @todo add handler for ^^^`);
+})

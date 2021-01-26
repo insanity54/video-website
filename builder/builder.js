@@ -21,7 +21,6 @@ const {
 
 const envImport = require('../common/lib/envImport');
 
-
 const Redis = require("ioredis");
 const redisConnectionDetails = {
   host: envImport('REDIS_HOST'),
@@ -81,10 +80,12 @@ const doBuildProcess = async () => {
   console.log('Uploading the website.');
   await doUploadWebsite(dir);
   console.log('build process completed.');
+  publisher.publish('futureporn:builder', 'Build complete.')
 }
 
 // build the site when a message is heard on the futureporn:transcoder channel
 subscriber.on('message', async (msg) => {
+  console.log(`Got message from subscriber. ${msg}`);
   doBuildProcess();
 });
 
