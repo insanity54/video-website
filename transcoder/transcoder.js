@@ -28,7 +28,8 @@ const {
   getChannelName,
   waitForNewVideos,
   saveMetadata,
-  doMergeMetadata
+  doMergeMetadata,
+  doDeleteFile,
 } = require('../common/lib/videoWebsite');
 const envImport = require('../common/lib/envImport');
 
@@ -106,6 +107,8 @@ const transcodeSingleVideo = async (vod) => {
   let video360Hash = await doUploadFile(video360pPath);
   let newData = doMergeMetadata(vod, { video360Hash });
   await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
+  await doDeleteFile(videoFilePath);
+  await doDeleteFile(video360pPath);
   return publisher.publish(writeChannel, vod.video360Hash);
 }
 

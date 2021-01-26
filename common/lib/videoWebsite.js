@@ -38,6 +38,10 @@ const tmpDir = path.join(projectRootPath, 'tmp');
 const vodsDir = path.join(webpageInputDir, 'vods');
 
 
+const doDeleteFile = (filePath) => {
+  return fsp.unlink(filePath);
+}
+
 /**
   Build metadata object, one per vod.
   This is what is saved to redis and it is enough for the transcoder
@@ -357,5 +361,6 @@ module.exports = {
   getChannelName,
   waitForNewVideos,
   doMergeMetadata,
-  doGeneratePages
+  doGeneratePages,
+  doDeleteFile
 }
