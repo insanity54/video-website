@@ -1,70 +1,30 @@
 #ripper
 
-@todo
-
-the problem here is that voddo is returning an incorrect filename.
-
-"https://twitch.tv/dj_crispy stream has completed. Stream saved to [twitch:stream] dj_crispy: Downloading stream GraphQL" WRONG!
-
-This must be a flaw in voddo.parseOutput()
+@todo solve this problem
 
 ```
-chris@ti83plus:~/Documents/video-website$ yarn run start
-yarn run v1.22.10
-$ node index
-ripping https://twitch.tv/dj_crispy ASAP.
-[WARN] This Redis server's `default` user does not require a password, but a password was supplied
-[WARN] This Redis server's `default` user does not require a password, but a password was supplied
-  voddo response:[twitch:stream] dj_crispy: Downloading stream GraphQL
-  voddo [twitch:stream] dj_crispy: Downloading stream access token GraphQL
-  voddo [twitch:stream] 41307333406: Downloading m3u8 information
-  voddo [download] Destination: dj_crispy (live) 2021-01-13 21_34-41307333406.mp4
-[ffmpeg] Downloaded 37089864 bytes
-[download] 100% of 35.37MiB in 02:07
-  voddo , delay:5000 +0ms
-https://twitch.tv/dj_crispy stream has completed. Stream saved to [twitch:stream] dj_crispy: Downloading stream GraphQL
-[twitch:stream] dj_crispy: Downloading stream access token GraphQL
-[twitch:stream] 41307333406: Downloading m3u8 information
-[download] Destination: dj_crispy (live) 2021-01-13 21_34-41307333406.mp4
-[ffmpeg] Downloaded 37089864 bytes
-[download] 100% of 35.37MiB in 02:07
-
-  video-website generating a video preview for [twitch:stream] dj_crispy: Downloading stream GraphQL
-  video-website [twitch:stream] dj_crispy: Downloading stream access token GraphQL
-  video-website [twitch:stream] 41307333406: Downloading m3u8 information
-  video-website [download] Destination: dj_crispy (live) 2021-01-13 21_34-41307333406.mp4
-[ffmpeg] Downloaded 37089864 bytes
-[download] 100% of 35.37MiB in 02:07
-  video-website  +0ms
-node:internal/process/promises:227
-          triggerUncaughtException(err, true /* fromPromise */);
-          ^
-
-Error: ffprobe exited with code 1
-ffprobe version 4.2.4-1ubuntu0.1 Copyright (c) 2007-2020 the FFmpeg developers
-  built with gcc 9 (Ubuntu 9.3.0-10ubuntu2)
-  configuration: --prefix=/usr --extra-version=1ubuntu0.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-nvenc --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
-  libavutil      56. 31.100 / 56. 31.100
-  libavcodec     58. 54.100 / 58. 54.100
-  libavformat    58. 29.100 / 58. 29.100
-  libavdevice    58.  8.100 / 58.  8.100
-  libavfilter     7. 57.100 /  7. 57.100
-  libavresample   4.  0.  0 /  4.  0.  0
-  libswscale      5.  5.100 /  5.  5.100
-  libswresample   3.  5.100 /  3.  5.100
-  libpostproc    55.  5.100 / 55.  5.100
-[twitch:stream] dj_crispy: Downloading stream GraphQL
-[twitch:stream] dj_crispy: Downloading stream access token GraphQL
-[twitch:stream] 41307333406: Downloading m3u8 information
-[download] Destination: dj_crispy (live) 2021-01-13 21_34-41307333406.mp4
-[ffmpeg] Downloaded 37089864 bytes
-[download] 100% of 35.37MiB in 02:07
-: File name too long
-
-    at ChildProcess.<anonymous> (/home/chris/Documents/video-website/node_modules/fluent-ffmpeg/lib/ffprobe.js:233:22)
-    at ChildProcess.emit (node:events:376:20)
-    at Process.ChildProcess._handle.onexit (node:internal/child_process:284:12)
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-chris@ti83plus:~/Documents/video-website$
+2021-02-02T23:15:04.443308150Z yarn run v1.22.5
+2021-02-02T23:15:04.506389765Z $ node index
+2021-02-02T23:15:05.015233194Z ripping https://chaturbate.com/projektmelody ASAP.
+2021-02-04T01:18:42.862630036Z https://chaturbate.com/projektmelody stream has completed. Stream saved to projektmelody 2021-02-03 23_04-projektmelody.mp4
+2021-02-04T01:18:42.864229448Z video processing has completed.
+2021-02-04T01:18:42.870216767Z 2021-02-04T01:18:42.868Z video-website uploading projektmelody 2021-02-03 23_04-projektmelody.mp4
+2021-02-04T01:25:36.032516759Z 2021-02-04T01:25:36.030Z video-website {
+2021-02-04T01:25:36.032587165Z IpfsHash: 'Qmc8Ec4Crw1BmAGuYJrkhFZF36yDDnjpHDpRBs1FeLkPcG',
+2021-02-04T01:25:36.032591504Z PinSize: 7165457936,
+2021-02-04T01:25:36.032594813Z Timestamp: '2021-02-04T01:25:35.108Z'
+2021-02-04T01:25:36.032597636Z }
+2021-02-04T01:25:36.038322538Z /futureporn/ripper/ripper.js:63
+2021-02-04T01:25:36.038348725Z const title = doGenerateTitle(fileName);
+2021-02-04T01:25:36.038352436Z ^
+2021-02-04T01:25:36.038355470Z 
+2021-02-04T01:25:36.038358250Z ReferenceError: doGenerateTitle is not defined
+2021-02-04T01:25:36.038361266Z at EventEmitter.process (/futureporn/ripper/ripper.js:63:17)
+2021-02-04T01:25:36.038364249Z at runMicrotasks (<anonymous>)
+2021-02-04T01:25:36.038367777Z at processTicksAndRejections (node:internal/process/task_queues:93:5)
+2021-02-04T01:25:36.090574384Z error Command failed with exit code 1.
+2021-02-04T01:25:36.091118020Z info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+2021-02-04T01:25:42.705299516Z yarn run v1.22.5
+2021-02-04T01:25:42.764502300Z $ node index
+2021-02-04T01:25:43.429878745Z ripping https://chaturbate.com/projektmelody ASAP.
 ```

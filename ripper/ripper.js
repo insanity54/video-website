@@ -15,7 +15,8 @@ const {
   doProcessVideo,
   doMinVideoProcess,
   getChannelName,
-  buildMetadata
+  buildMetadata,
+  doGenerateTitle
 } = require('../common/lib/videoWebsite');
 
 const envImport = require('../common/lib/envImport');

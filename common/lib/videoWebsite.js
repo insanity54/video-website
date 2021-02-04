@@ -362,5 +362,6 @@ module.exports = {
   waitForNewVideos,
   doMergeMetadata,
   doGeneratePages,
-  doDeleteFile
+  doDeleteFile,
+  doGenerateTitle,
 }
