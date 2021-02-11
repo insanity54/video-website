@@ -152,6 +152,7 @@ const doUploadFile = (fileName) => {
   const options = {
     method: 'POST',
     body: data,
+    maxContentLength: 'Infinity',
     headers: {
       'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
       'pinata_api_key': PINATA_API_KEY,
