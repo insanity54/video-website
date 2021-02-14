@@ -252,17 +252,17 @@ const savePageMarkdown = async (datum) => {
     video720Hash,
     video480Hash,
     video360Hash,
-    title
+    title,
+    announceTitle,
+    announceUrl,
+    date,
   } = datum;
-  let date = getDateFromTitle(title);
-  let channel = getChannelName(title);
-  debug(`generating vod channel:${channel}, title:${title}, videoSrcHash:${videoSrcHash}, thiccHash:${thiccHash}, thinHash:${thinHash}`);
+  debug(`generating vod title:${title}, date:${date}, videoSrcHash:${videoSrcHash}, thiccHash:${thiccHash}, thinHash:${thinHash}`);
   const vob = (itm) => {
     return (typeof itm !== 'undefined') ? itm : ''; // "value or blank"
   };
   let template =
     '---\n'+
-    `channel: ${vob(title)}\n`+
     `title: ${vob(title)}\n`+
     `videoSrcHash: ${vob(videoSrcHash)}\n`+
     `video720Hash: ${vob(video720Hash)}\n`+
@@ -270,10 +270,13 @@ const savePageMarkdown = async (datum) => {
     `video360Hash: ${vob(video360Hash)}\n`+
     `thinHash: ${vob(thinHash)}\n`+
     `thiccHash: ${vob(thiccHash)}\n`+
+    `announceTitle: ${vob(announceTitle)}\n`+
+    `announceUrl: ${vob(announceUrl)}\n`+
     `date: ${vob(date)}\n`+
     'layout: layouts/vod.njk\n'+
     '---\n';
-  let saveFile = path.join(vodsDir, `${channel}_${date}.md`);
+  console.log(template);
+  let saveFile = path.join(vodsDir, `${date}.md`);
   return fsp
     .writeFile(saveFile, template)
 }

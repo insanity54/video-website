@@ -2,13 +2,23 @@
 {% for vod in vodslist | reverse %}
   <li class="vodlist-item{% if vod.url == url %} vodlist-item-active{% endif %}">
     <a href="{{ vod.url | url }}" class="vodlist-link">
-    {% if vod.data.title %}{{ vod.data.title }}<br>
-      {% if vod.data.thinHash %}
-        <img class="preview-image" src="{% buildIpfsUrl vod.data.thinHash %}"/>
+      {% if vod.data.announceTitle %}
+        {{ vod.data.announceTitle | urlDecode | head(55) }}
+      {% elseif vod.data.title %}
+        {{ vod.data.title }}
       {% else %}
-        <div class="no-preview-image"></div>
+        <code>{{ vod.url }}</code>
       {% endif %}
-    {% else %}<code>{{ vod.url }}</code>{% endif %}</a>
+    </a>
+    <time class="postlist-date" datetime="{{ vod.data.date | htmlDateString }}">{{ vod.data.date | readableDate }}</time>
+      <br>
+      <a href="{{ vod.url | url }}" class="vodlist-link">
+        {% if vod.data.thinHash %}
+          <img class="preview-image" src="{% buildIpfsUrl vod.data.thinHash %}"/>
+        {% else %}
+          <div class="no-preview-image"></div>
+        {% endif %}
+      </a>
     <time class="vodlist-date" datetime="{{ vod.date | htmlDateString }}">{{ vod.date | readableDate }}</time>
     {% for tag in vod.data.tags %}
       {%- if collections.tagList.indexOf(tag) != -1 -%}

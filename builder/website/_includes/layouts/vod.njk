@@ -2,7 +2,9 @@
 layout: layouts/base.njk
 templateClass: tmpl-Vod
 ---
-<h1>{{ title }}</h1></badge>
+<h1>{%- if announceTitle %}{{ announceTitle | urlDecode }}{% else %}{{ title | urlDecode }}{% endif %}</h1>
+
+
 
 <video id="player" style="--plyr-color-main:#353fff;" controls data-poster="{% buildIpfsUrl thiccHash if thiccHash else '' %}">
   {# we originally called it videoHash, but then we switched to videoSrcHash #}

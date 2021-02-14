@@ -30,6 +30,7 @@ const redisConnectionDetails = {
 const client = new Redis(redisConnectionDetails);
 const subscriber = new Redis(redisConnectionDetails);
 const publisher = new Redis(redisConnectionDetails);
+const nodeEnv = envImport('NODE_ENV');
 //
 client.on("error", (err) => console.log(err));
 subscriber.on("error", (error) => console.log(error));
@@ -78,9 +79,13 @@ const doBuildProcess = async () => {
   const dir = await doBuildWebpage();
   console.log(`webpage outputted to ${dir}`);
   console.log('Uploading the website.');
-  await doUploadWebsite(dir);
+  if (nodeEnv === 'development') {
+    console.log('UPLOAD SKIPPED BECAUSE THIS IS DEVELOPMENT ENVIRONMENT');
+  } else {
+    await doUploadWebsite(dir);
+  }
   console.log('build process completed.');
-  publisher.publish('futureporn:builder', 'Build complete.')
+  publisher.publish('futureporn:builder', 'Build complete.');
 }
 
 // build the site when a message is heard on the futureporn:transcoder channel
