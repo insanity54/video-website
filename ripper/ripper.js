@@ -14,7 +14,6 @@ const {
   getDateFromTitle,
   doProcessVideo,
   doMinVideoProcess,
-  getChannelName,
   buildMetadata,
   doGenerateTitle
 } = require('../common/lib/videoWebsite');

@@ -48,8 +48,9 @@ const doDeleteFile = (filePath) => {
   And builder components to do their job.
 */
 const buildMetadata = (data) => {
-  const { videoSrcHash, thiccHash, thinHash, title } = data;
+  const { videoSrcHash, thiccHash, thinHash, title, date } = data;
   const metadata = {
+    date: date || new Date(),
     title: title || '',
     thiccHash: thiccHash || '', // this is teh wide and tall thumbnail which serves as the video poster
     thinHash: thinHash || '', // this is the wide and short thumbnail which is shown on the main page
@@ -233,6 +234,9 @@ const doProcessVideo = async (videoPath) => {
   console.log(`video processing has completed.`)
 }
 
+/**
+ * DEPRECATED
+ */
 const getDateFromTitle = (title) => {
   let o = title.match(dateRegex);
   let date;
