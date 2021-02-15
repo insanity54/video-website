@@ -39,7 +39,7 @@ As a hobby, I provide 1 pin of every video file. Beyond that, it's up to the com
 
 The public IPFS gateway is what lets your computer pull data from IPFS without having to run IPFS yourself. There are a lot of other people using the gateway, so it can be slow. 
 
-There is the potential for achieving faster download speeds if you bypass the public IPFS gateway completely and run your own IPFS daemon.
+There is the potential for achieving faster download speeds if you bypass the public IPFS gateway completely by running your own IPFS daemon.
 
 
 ## Do I need to run IPFS on my computer to use this website?
