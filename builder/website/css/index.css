@@ -21,6 +21,9 @@ body {
   color: var(--highlight);
   background-color: var(--darkgray);
 }
+.video-wrapper {
+  max-width: 60%;
+}
 p:last-child {
   margin-bottom: 0;
 }
