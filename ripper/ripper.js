@@ -3,6 +3,8 @@
 require('dotenv').config();
 
 const voddo = require('voddo');
+const ytdl = require('youtube-dl-wrap');
+
 
 const {
   doClean,
@@ -49,6 +51,12 @@ const saveMetadata = (metadata) => {
     })
 };
 
+const updateYtdl = async () => {
+  console.log('updating youtube-dl');
+  await ytdl.downloadFromWebsite('/usr/local/bin/youtube-dl', 'linux');
+  const version = await ytdl.getVersion();
+  console.log(`Updated to youtube-dl ${version}`);
+}
 
 
 
@@ -72,6 +80,12 @@ const process = async (fileName) => {
   await doClean();
 }
 
-
+// watch voddo events and wait for a new video
 const vee = voddo.watch(channelUrl, initialDelay, maxDelay);
 vee.on('complete', process);
+
+// update youtube-dl when starting the daemon
+updateYtdl();
+
+// every day at 7AM, update youtube-dl
+scheduler.scheduleJob('15 15 8 * * *', updateYtdl);
