@@ -54,7 +54,7 @@ const saveMetadata = (metadata) => {
 
 const updateYtdl = async () => {
   console.log('updating youtube-dl');
-  await ytdl.downloadFromWebsite('/usr/local/bin/youtube-dl', 'linux');
+  await ytdlWrap.downloadFromWebsite('/usr/local/bin/youtube-dl', 'linux');
   const version = await ytdl.getVersion();
   console.log(`Updated to youtube-dl ${version}`);
 }
