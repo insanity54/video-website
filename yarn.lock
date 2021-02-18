@@ -69,6 +69,11 @@
     time-require "^0.1.2"
     valid-url "^1.0.9"
 
+"@grimtech/envimport@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@grimtech/envimport/-/envimport-0.0.1.tgz#20f9568776aa5558a7b938d11f3eb58f736f053a"
+  integrity sha512-yZX0Mlt7mzIF7+gv0bJkC+xUyyYVKliCHE8IW3SWUOhGJqQEZCqfb/tMrYnIsBJuFd3Y8q8vy8JJepCsuvMIpw==
+
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"

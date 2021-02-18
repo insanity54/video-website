@@ -11,4 +11,6 @@ if (f === 'ripper') {
   require('./transcoder/transcoder');
 } else if (f === 'builder') {
   require('./builder/builder');
+} else if (f === 'backup') {
+  require('./backup/backup');
 }

@@ -17,6 +17,8 @@ COPY --from=0 / /
 # install python for youtube-dl
 RUN apk --no-cache add curl python3 && ln -sf python3 /usr/bin/python
 
+# install s3cmd for backups
+RUN apk s3cmd
 
 
 WORKDIR /futureporn
