@@ -14,6 +14,10 @@ ADD https://www.google.com /time.now
 # copy ffmpeg bins from first image (greetz https://github.com/jrottenberg/ffmpeg/issues/99)
 COPY --from=0 / /
 
+# install python for youtube-dl
+RUN apk --no-cache add curl python3 && ln -sf python3 /usr/bin/python
+
+
 
 WORKDIR /futureporn
 COPY . .
