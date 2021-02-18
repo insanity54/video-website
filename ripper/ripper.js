@@ -3,7 +3,7 @@
 require('dotenv').config();
 
 const voddo = require('voddo');
-const ytdl = require('youtube-dl-wrap');
+const ytdlWrap = require('youtube-dl-wrap');
 const scheduler = require('node-schedule');
 
 const {
@@ -31,6 +31,7 @@ const redisConnectionDetails = {
 };
 const client = new Redis(redisConnectionDetails);
 const publisher = new Redis(redisConnectionDetails);
+const ytdl = new ytdlWrap();
 
 console.log(`ripping ${channelUrl} ASAP.`);
 
