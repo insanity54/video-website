@@ -15,7 +15,7 @@ ADD https://www.google.com /time.now
 COPY --from=0 / /
 
 # install system dependencies
-RUN apk --no-cache add curl python3 s3cmd && ln -sf python3 /usr/bin/python
+RUN apk --no-cache add curl python3 && ln -sf python3 /usr/bin/python && apk --no-cache add s3cmd
 
 
 
