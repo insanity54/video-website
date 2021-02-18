@@ -74,11 +74,6 @@ nav a:not(:last-of-type) {
 
 /* -- video */
 
-.video-wrapper {
-  width: 20px;
-  height: 25px;
-  border: 3px solid red;
-}
 
 .plyr * {
 }

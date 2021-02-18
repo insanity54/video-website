@@ -66,6 +66,10 @@ const process = async (fileName) => {
   console.log(metadata);
   const saveRes = await saveMetadata(metadata);
   console.log(`metadata has been saved to the db`);
+  const channel = 'futureporn';
+  await publisher.publish(channel, videoSrcHash);
+  console.log(`I emitted ${videoSrcHash} on ${channel}`);
+  await doClean();
 }
 
 

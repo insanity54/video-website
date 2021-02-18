@@ -24,6 +24,7 @@ const NEOCITIES_SUBDOMAIN = envImport('NEOCITIES_SUBDOMAIN');
 const NEOCITIES_API_KEY = envImport('NEOCITIES_API_KEY');
 const PINATA_SECRET_API_KEY = envImport('PINATA_SECRET_API_KEY');
 const PINATA_API_KEY = envImport('PINATA_API_KEY');
+const NODE_ENV = envImport('NODE_ENV');
 
 
 // constants
@@ -340,7 +341,7 @@ const doUploadWebsite = async (distPath) => {
 }
 
 const doClean = async (paths) => {
-  if (DANGER_ZONE === false) {
+  if (NODE_ENV !== 'production') {
     return
   } else {
     debug(`deleting the following files:`);
