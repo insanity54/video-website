@@ -5,6 +5,7 @@ require('dotenv').config();
 const voddo = require('voddo');
 const ytdlWrap = require('youtube-dl-wrap');
 const scheduler = require('node-schedule');
+const fsp = require('fs').promises;
 
 const {
   doClean,
@@ -54,7 +55,9 @@ const saveMetadata = (metadata) => {
 
 const updateYtdl = async () => {
   console.log('updating youtube-dl');
-  await ytdlWrap.downloadFromWebsite('/usr/local/bin/youtube-dl', 'linux');
+  const ytdlBinPath = '/usr/local/bin/youtube-dl';
+  await ytdlWrap.downloadFromWebsite(ytdlBinPath, 'linux');
+  await fsp.chmod(ytdlBinPath, '0775');
   const version = await ytdl.getVersion();
   console.log(`Updated to youtube-dl ${version}`);
 }

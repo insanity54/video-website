@@ -32,7 +32,7 @@ _Let's make ProjektMelody the first porn on Mars!_ 🌎📡🚀🌌
 
 As a file becomes more popular and more pinned, IPFS enables faster download times because bits of the file are coming from several severs instead of just one.
 
-As a hobby, I provide 1 pin of every video file. Beyond that, it's up to the community!
+As a hobby and a public service, I provide 1 pin of every video file. Beyond that, it's up to the science team!
 
 
 ### Reason 2. The public IPFS gateway is overloaded.
