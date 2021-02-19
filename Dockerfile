@@ -14,7 +14,8 @@ ADD https://www.google.com /time.now
 # copy ffmpeg bins from first image (greetz https://github.com/jrottenberg/ffmpeg/issues/99)
 COPY --from=0 / /
 
-# install system dependencies
+# install python & pip
+ENV PYTHONUNBUFFERED=1
 RUN apk --no-cache add curl python3 && ln -sf python3 /usr/bin/python
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
