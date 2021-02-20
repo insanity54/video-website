@@ -39,9 +39,6 @@ const tmpDir = path.join(projectRootPath, 'tmp');
 const vodsDir = path.join(webpageInputDir, 'vods');
 
 
-const doDeleteFile = (filePath) => {
-  return fsp.unlink(filePath);
-}
 
 /**
   Build metadata object, one per vod.
@@ -231,7 +228,7 @@ const doProcessVideo = async (videoPath) => {
   let distPath = await doBuildWebpage();
   await doUploadWebsite(distPath);
 
-  let f = await doClean([videoPath, thiccPath, thinPath]);
+  let f = await doDeleteFile([videoPath, thiccPath, thinPath]);
   console.log(`video processing has completed.`)
 }
 
@@ -340,7 +337,8 @@ const doUploadWebsite = async (distPath) => {
   });
 }
 
-const doClean = async (paths) => {
+const doDeleteFile = async (paths) => {
+  if (typeof paths === 'undefined') throw new Error('arg1 (paths) passed to doDeleteFile() must be defined. It was undefined.');
   if (NODE_ENV !== 'production') {
     return
   } else {
@@ -356,7 +354,7 @@ const doClean = async (paths) => {
 
 
 module.exports = {
-  doClean,
+  doDeleteFile,
   doUploadWebsite,
   doUploadFile,
   doUploadFiles,
@@ -371,6 +369,5 @@ module.exports = {
   waitForNewVideos,
   doMergeMetadata,
   doGeneratePages,
-  doDeleteFile,
   doGenerateTitle,
 }

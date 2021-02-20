@@ -4,7 +4,6 @@ require('dotenv').config();
 
 
 const {
-  doClean,
   doUploadWebsite,
   doBuildWebpage,
   doUploadFile,

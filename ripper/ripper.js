@@ -8,7 +8,7 @@ const scheduler = require('node-schedule');
 const fsp = require('fs').promises;
 
 const {
-  doClean,
+  doDeleteFile,
   doUploadWebsite,
   doBuildWebpage,
   doUploadFile,
@@ -81,7 +81,7 @@ const process = async (fileName) => {
   const channel = 'futureporn';
   await publisher.publish(channel, videoSrcHash);
   console.log(`I emitted ${videoSrcHash} on ${channel}`);
-  await doClean();
+  await doDeleteFile(fileName);
 }
 
 // watch voddo events and wait for a new video
