@@ -19,9 +19,10 @@ eleventyExcludeFromCollections: true
     {
       "id": "{{ absolutePostUrl }}",
       "url": "{{ absolutePostUrl }}",
-      "title": "{{ post.data.title }}",
-      "content_html": {% if post.templateContent %}{{ post.templateContent | dump | safe }}{% else %}""{% endif %},
-      "date_published": "{{ post.date | rssDate }}"
+      "title": "{% if post.data.announceTitle %}{{ post.data.announceTitle }}{% else %}{{ post.data.title }}{% endif %}",
+      "videoSrcHash": {% if post.data.videoSrcHash %}"{{ post.data.videoSrcHash }}"{% else %}""{% endif %},
+      {% if post.data.video360Hash %}"video360Hash": "{{ post.data.video360Hash }}",{% endif %}
+      "date_published": "{{ post.data.date | rssDate }}"
     }
     {%- if not loop.last -%}
     ,
