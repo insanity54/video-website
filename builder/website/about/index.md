@@ -7,7 +7,7 @@ eleventyNavigation:
   order: 3
 ---
 
-FuturePorn is an unofficial [ProjektMelody](https://streamerlinks.com/projektmelody) fan website which uses a bleeding-edge file server designed to eliminate 404s.
+FuturePorn is an unofficial [ProjektMelody](https://streamerlinks.com/projektmelody) fan website which uses a cutting-edge file server designed to eliminate 404s.
 
 ## Why this website exists
 
@@ -18,6 +18,6 @@ Chaturbate VODs eventually appear on her [OnlyFans](https://onlyfans.com/projekt
 
 ## About the Developer
 
-Futureporn is made with love by [Chris "Crispy" Grimmett](https://grimtech.net/about/).
+Futureporn is made with love by [Chris "CJ Crispy" Grimmett](https://grimtech.net/about/).
 
 Are you in need of a web developer? I am in need of work! Contact me via [e-mail](mailto:chris@grimtech.net) or see [my contact page](https://grimtech.net/contact) for alternative methods.
