@@ -38,8 +38,7 @@ const {
   doTranscode360
 } = require('../common/lib/transcode');
 
-const readChannel = 'futureporn:ripper';
-const writeChannel = 'futureporn:transcoder';
+const pubsubChannel = 'futureporn';
 const Redis = require("ioredis");
 const redisConnectionDetails = {
   host: envImport('REDIS_HOST'),
@@ -47,16 +46,14 @@ const redisConnectionDetails = {
   password: envImport('REDIS_PASSWORD')
 };
 
-const subscriber = new Redis(redisConnectionDetails);
-const publisher = new Redis(redisConnectionDetails);
+const pubsub = new Redis(redisConnectionDetails);
 const client = new Redis(redisConnectionDetails);
 
-publisher.on("error", (error) => console.error(error));
-subscriber.on("error", (error) => console.error(error));
+pubsub.on("error", (error) => console.error(error));
 
-subscriber.subscribe(readChannel, (err, count) => {
+pubsub.subscribe(pubsubChannel, (err, count) => {
   if (err) throw err;
-  console.log(`subscribed to channel ${readChannel} (${count} count)`);
+  console.log(`subscribed to channel ${pubsubChannel} (${count} count)`);
 });
 
 
@@ -91,13 +88,13 @@ const downloadTranscodeAndUpload = async (hash) => {
 }
 
 // listen to redis for a message on the futureporn channel
-fromEvent(subscriber, "message")
+fromEvent(pubsub, "message")
   .pipe(
     map(e => e[1]), // get the hash from [ 'futureporn:ripper', ipfshash ]
     flatMap(downloadTranscodeAndUpload)
   ).subscribe((hash) => {
     console.log(`finishing up with ${hash} value`);
-    publisher.publish(writeChannel, hash);
+    pubsub.publish(pubsubChannel, hash);
   });
 
 const transcodeSingleVideo = async (vod) => {
@@ -108,7 +105,7 @@ const transcodeSingleVideo = async (vod) => {
   let newData = doMergeMetadata(vod, { video360Hash });
   await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
   await doDeleteFile([videoFilePath, video360pPath]);
-  return publisher.publish(writeChannel, vod.video360Hash);
+  return pubsub.publish(pubsubChannel, vod.video360Hash);
 }
 
 const transcodeAllVideos = (data) => {
@@ -152,10 +149,12 @@ const doTranscodeProcess = () => {
 }
 
 
-// when starting, check with redis to see if there is work
-doTranscodeProcess();
+const main = (async () => {
+  // when starting, check with redis to see if there is work
+  await doTranscodeProcess();
 
-subscriber.on('message', (msg) => {
-  console.log(`subscriber emitted message ${msg}`)
-  console.log(`  @todo add handler for ^^^`);
-})
+  pubsub.on('message', (msg) => {
+    console.log(`pubsub emitted message ${msg}. Beginning transcode process`);
+    await doTranscodeProcess();
+  })
+})();

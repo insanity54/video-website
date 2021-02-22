@@ -28,10 +28,10 @@
     "build:scripts": "cp node_modules/plyr/dist/plyr.min.js.map node_modules/plyr/dist/plyr.min.js website/js/ && cp node_modules/plyr/dist/plyr.css website/css/",
     "build:website": "npx @11ty/eleventy",
     "build:docker": "docker build -t futureporn",
-    "deploy:builder": "caprover deploy --caproverName caprover-02 --branch main --appName futureporn-builder",
-    "deploy:ripper": "caprover deploy --caproverName caprover-02 --branch main --appName futureporn-ripper",
-    "deploy:backup": "caprover deploy --caproverName caprover-02 --branch main --appName futureporn-backup",
-    "deploy:transcoder": "caprover deploy --caproverName caprover-02 --branch main --appName futureporn-transcoder"
+    "deploy:builder": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-builder",
+    "deploy:ripper": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-ripper",
+    "deploy:backup": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-backup",
+    "deploy:transcoder": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-transcoder"
   },
   "repository": {
     "type": "git",
