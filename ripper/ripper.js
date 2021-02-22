@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
+// requires
 require('dotenv').config();
 
 const voddo = require('voddo');
 const ytdlWrap = require('youtube-dl-wrap');
 const scheduler = require('node-schedule');
 const fsp = require('fs').promises;
-
+const { buildPayload } = require('../common/lib/pubsub');
 const {
   doDeleteFile,
   doUploadWebsite,
@@ -22,8 +23,17 @@ const {
 } = require('../common/lib/videoWebsite');
 
 const envImport = require('../common/lib/envImport');
-const channelUrl = envImport('CHANNEL_URL');
 
+// constants
+const channelUrl = envImport('CHANNEL_URL');
+const workerName = 'ripper';
+const pubsubChannel = 'futureporn';
+const initialDelay = 1000*5;
+const maxDelay = 1000*60*8;
+
+
+
+// init
 const Redis = require("ioredis");
 const redisConnectionDetails = {
   host: envImport('REDIS_HOST'),
@@ -34,11 +44,11 @@ const client = new Redis(redisConnectionDetails);
 const publisher = new Redis(redisConnectionDetails);
 const ytdl = new ytdlWrap();
 
-console.log(`ripping ${channelUrl} ASAP.`);
 
 client.on("error", (err) => console.log(err));
 publisher.on("error", (error) => console.log(error));
 
+// func
 const saveMetadata = (metadata) => {
   const { videoSrcHash } = metadata;
   return client.multi()
@@ -64,10 +74,6 @@ const updateYtdl = async () => {
 
 
 
-const initialDelay = 1000*5;
-const maxDelay = 1000*60*8;
-
-
 const process = async (fileName) => {
   console.log(`${channelUrl} stream has completed. Stream saved to ${fileName}`);
   console.log(`video processing has completed.`);
@@ -79,11 +85,13 @@ const process = async (fileName) => {
   const saveRes = await saveMetadata(metadata);
   console.log(`metadata has been saved to the db`);
   const channel = 'futureporn';
-  await publisher.publish(channel, videoSrcHash);
+  await publisher.publish(channel, buildPayload(workerName, videoSrcHash));
   console.log(`I emitted ${videoSrcHash} on ${channel}`);
   await doDeleteFile(fileName);
 }
 
+// run
+console.log(`ripping ${channelUrl} ASAP.`);
 // watch voddo events and wait for a new video
 const vee = voddo.watch(channelUrl, initialDelay, maxDelay);
 vee.on('complete', process);

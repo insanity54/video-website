@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
+// requires
 require('dotenv').config();
-
 
 const {
   fromEvent,
@@ -13,6 +13,11 @@ const {
   flatMap,
   map,
 } = require('rxjs/operators');
+
+const {
+  isApplicableMessage,
+  buildPayload
+} = require('../common/lib/pubsub');
 
 const {
   doDeleteFile,
@@ -38,7 +43,12 @@ const {
   doTranscode360
 } = require('../common/lib/transcode');
 
+
+// constants
 const pubsubChannel = 'futureporn';
+const workerName = 'transcoder';
+
+// init
 const Redis = require("ioredis");
 const redisConnectionDetails = {
   host: envImport('REDIS_HOST'),
@@ -46,17 +56,21 @@ const redisConnectionDetails = {
   password: envImport('REDIS_PASSWORD')
 };
 
-const pubsub = new Redis(redisConnectionDetails);
+const subscriber = new Redis(redisConnectionDetails);
+const publisher = new Redis(redisConnectionDetails);
 const client = new Redis(redisConnectionDetails);
 
-pubsub.on("error", (error) => console.error(error));
+subscriber.on("error", (error) => console.error(error));
+publisher.on("error", (error) => console.error(error));
+client.on("error", (error) => console.error(error));
 
-pubsub.subscribe(pubsubChannel, (err, count) => {
+subscriber.subscribe(pubsubChannel, (err, count) => {
   if (err) throw err;
   console.log(`subscribed to channel ${pubsubChannel} (${count} count)`);
 });
 
 
+// functions
 const doLoadMetadata = async (hash) => {
   const data = await client.get(`futureporn:vod:${hash}`);
   let d;
@@ -87,15 +101,6 @@ const downloadTranscodeAndUpload = async (hash) => {
   return hash;
 }
 
-// listen to redis for a message on the futureporn channel
-fromEvent(pubsub, "message")
-  .pipe(
-    map(e => e[1]), // get the hash from [ 'futureporn:ripper', ipfshash ]
-    flatMap(downloadTranscodeAndUpload)
-  ).subscribe((hash) => {
-    console.log(`finishing up with ${hash} value`);
-    pubsub.publish(pubsubChannel, hash);
-  });
 
 const transcodeSingleVideo = async (vod) => {
   console.log(`transcoding ${vod.videoSrcHash}`);
@@ -105,7 +110,7 @@ const transcodeSingleVideo = async (vod) => {
   let newData = doMergeMetadata(vod, { video360Hash });
   await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
   await doDeleteFile([videoFilePath, video360pPath]);
-  return pubsub.publish(pubsubChannel, vod.video360Hash);
+  return publisher.publish(pubsubChannel, buildPayload(workerName, vod.video360Hash));
 }
 
 const transcodeAllVideos = (data) => {
@@ -149,12 +154,14 @@ const doTranscodeProcess = () => {
 }
 
 
+// run
 const main = (async () => {
   // when starting, check with redis to see if there is work
   await doTranscodeProcess();
 
-  pubsub.on('message', async (msg) => {
-    console.log(`pubsub emitted message ${msg}. Beginning transcode process`);
+  subscriber.on('message', async (msg) => {
+    if (!isApplicableMessage(msg, 'ripper')) return;
+    console.log(`another node emitted message ${msg}. Beginning transcode process`);
     await doTranscodeProcess();
   })
 })();

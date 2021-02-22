@@ -17,9 +17,19 @@ const {
   buildMetadata,
   doGeneratePages
 } = require('../common/lib/videoWebsite');
+const {
+  buildPayload,
+  isApplicableMessage
+} = require('../common/lib/pubsub');
 
 const envImport = require('../common/lib/envImport');
 
+
+// constants
+const workerName = 'builder';
+const pubsubChannel = 'futureporn';
+
+// init
 const Redis = require("ioredis");
 const redisConnectionDetails = {
   host: envImport('REDIS_HOST'),
@@ -36,7 +46,7 @@ subscriber.on("error", (error) => console.log(error));
 publisher.on("error", (error) => console.log(error));
 
 // we subscribe to the transcoder and ripper channels
-subscriber.subscribe('futureporn:transcoder', 'futureporn:ripper');
+subscriber.subscribe(pubsubChannel);
 
 
 const loadMetadata = async () => {
@@ -84,11 +94,12 @@ const doBuildProcess = async () => {
     await doUploadWebsite(dir);
   }
   console.log('build process completed.');
-  publisher.publish('futureporn:builder', 'Build complete.');
+  publisher.publish(pubsubChannel, buildPayload(workerName, 'Build complete.'));
 }
 
 // build the site when a message is heard on the futureporn:transcoder channel
 subscriber.on('message', async (msg) => {
+  if (!isApplicableMessage(msg, 'transcoder|ripper|scout')) return;
   console.log(`Got message from subscriber. ${msg}`);
   doBuildProcess();
 });
