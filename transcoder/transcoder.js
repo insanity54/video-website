@@ -153,7 +153,7 @@ const main = (async () => {
   // when starting, check with redis to see if there is work
   await doTranscodeProcess();
 
-  pubsub.on('message', (msg) => {
+  pubsub.on('message', async (msg) => {
     console.log(`pubsub emitted message ${msg}. Beginning transcode process`);
     await doTranscodeProcess();
   })
