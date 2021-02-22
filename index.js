@@ -6,11 +6,13 @@ const envImport = require('./common/lib/envImport');
 const f = envImport('FUNCTION');
 
 if (f === 'ripper') {
-  require('./ripper/ripper');
+	require('./ripper/ripper');
 } else if (f === 'transcoder') {
-  require('./transcoder/transcoder');
+	require('./transcoder/transcoder');
 } else if (f === 'builder') {
-  require('./builder/builder');
+	require('./builder/builder');
 } else if (f === 'backup') {
-  require('./backup/backup');
+	require('./backup/backup');
+} else if (f === 'analyzer') {
+	require('./analyzer/analyzer');
 }
