@@ -98,7 +98,7 @@ fromEvent(pubsub, "message")
   });
 
 const transcodeSingleVideo = async (vod) => {
-  console.log(`transcoding ${vod}`);
+  console.log(`transcoding ${vod.videoSrcHash}`);
   let videoFilePath = await doDownloadFile(vod.videoSrcHash);
   let video360pPath = await doTranscode360(videoFilePath);
   let video360Hash = await doUploadFile(video360pPath);
