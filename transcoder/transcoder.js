@@ -115,6 +115,8 @@ const transcodeSingleVideo = async (vod) => {
 
 const transcodeAllVideos = (data) => {
   // compile a list of datums without a 360p encode
+  console.log('here be the data')
+  console.log(data);
   const joblist = data.filter((d) => {
     typeof d.video360Hash === 'undefined' ||
     d.video360Hash === ''
@@ -130,6 +132,8 @@ const doTranscodeProcess = () => {
   client
     .smembers('futureporn:vods')
     .then((hashes) => {
+      console.log('here be the hashes')
+      console.log(hashes);
       // compile a list of GET commands and then execute them
       let keys = hashes.map((hash) => `futureporn:vod:${hash}`);
       let gets = keys.map((key) => ['get', key]);
