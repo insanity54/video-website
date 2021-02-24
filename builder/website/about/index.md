@@ -7,7 +7,7 @@ eleventyNavigation:
   order: 3
 ---
 
-FuturePorn is an unofficial [ProjektMelody][1] fan website which uses a cutting-edge file server designed to eliminate 404s.
+FuturePorn is an unofficial [ProjektMelody][1] fan website which uses a cutting-edge file server designed to eliminate 404s and enable efficient Inter-Planetary file transfers.
 
 ## Why this website exists
 
