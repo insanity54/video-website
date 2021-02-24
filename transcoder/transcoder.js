@@ -115,7 +115,12 @@ const transcodeSingleVideo = async (vod) => {
 
 const transcodeAllVideos = (data) => {
   // compile a list of datums without a 360p encode
-  const joblist = data.filter((d) => typeof d.video360Hash === 'undefined');
+  const joblist = data.filter((d) => {
+    typeof d.video360Hash === 'undefined' ||
+    d.video360Hash === ''
+  });
+  console.log(`here is the joblist`);
+  console.log(joblist);
   return new Promise.mapSeries(joblist, transcodeSingleVideo);
 }
 
