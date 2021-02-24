@@ -118,8 +118,10 @@ const transcodeAllVideos = (data) => {
   console.log('here be the data')
   console.log(data);
   const joblist = data.filter((d) => {
-    typeof d.video360Hash === 'undefined' ||
-    d.video360Hash === ''
+    return (
+      typeof d.video360Hash === 'undefined' ||
+      d.video360Hash === ''
+    );
   });
   console.log(`here is the joblist`);
   console.log(joblist);
