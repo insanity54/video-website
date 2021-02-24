@@ -44,3 +44,9 @@ No. Running IPFS on your computer is completely optional, but if you'd like to g
 
 It's coming, but it takes a few hours. VODs are recorded in the highest quality available, and posted to Futureporn immediately. Behind the scenes, Futureporn is transcoding the video to a lower resolution.
 
+
+## Who made this website?
+
+Futureporn is made with love by [Chris "CJ Crispy" Grimmett](https://grimtech.net/about/).
+
+Are you in need of a web developer? I am in need of work! Contact me via [e-mail](mailto:chris@grimtech.net) or see [my contact page](https://grimtech.net/contact) for alternative methods.

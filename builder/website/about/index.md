@@ -7,17 +7,11 @@ eleventyNavigation:
   order: 3
 ---
 
-FuturePorn is an unofficial [ProjektMelody](https://streamerlinks.com/projektmelody) fan website which uses a cutting-edge file server designed to eliminate 404s.
+FuturePorn is an unofficial [ProjektMelody][1] fan website which uses a cutting-edge file server designed to eliminate 404s.
 
 ## Why this website exists
 
-This website exists for nap loving madlads everywhere, who have a bad habit of missing Melody's live streams.
+This website exists for nap loving madlads everywhere, who have a bad habit of missing Melody's live streams. Futureporn records Melody's Chaturbate streams, adds the recordings to IPFS, and shares the [hashes][2] along with a video player for easy viewing. Futureporn is designed to be *fast*, publishing recorded VODs as quickly as robotically possible.
 
-Chaturbate VODs eventually appear on her [OnlyFans](https://onlyfans.com/projektbutt), but that seems to be a manual process that often takes a day or more. Futureporn is designed as an automatic process which posts recorded VODs as quickly as possible.
-
-
-## About the Developer
-
-Futureporn is made with love by [Chris "CJ Crispy" Grimmett](https://grimtech.net/about/).
-
-Are you in need of a web developer? I am in need of work! Contact me via [e-mail](mailto:chris@grimtech.net) or see [my contact page](https://grimtech.net/contact) for alternative methods.
+[1]:https://streamerlinks.com/projektmelody
+[2]:https://futureporn.neocities.org/faq/#what-are-these-ipfs-hash-thingies%3F

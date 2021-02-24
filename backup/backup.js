@@ -6,7 +6,7 @@ const envImport = require('@grimtech/envimport');
 const execa = require('execa');
 const Redis = require("ioredis");
 const fsp = require('fs').promises;
-const { 
+const {
 	importDatabase,
 	exportDatabase,
 	getHashesFromData,

@@ -4,7 +4,7 @@ title: Feed
 templateClass: tmpl-Info
 eleventyNavigation:
   key: Feed
-  order: 4
+  order: 5
 ---
 
 For the Science Team members who stay up to date using feed readers.
