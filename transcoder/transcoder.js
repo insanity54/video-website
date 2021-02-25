@@ -110,7 +110,7 @@ const transcodeSingleVideo = async (vod) => {
   let newData = doMergeMetadata(vod, { video360Hash });
   await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
   await doDeleteFile([videoFilePath, video360pPath]);
-  return publisher.publish(pubsubChannel, buildPayload(workerName, video360Hash));
+  return publisher.publish(pubsubChannel, JSON.stringify(buildPayload(workerName, video360Hash)));
 }
 
 const transcodeAllVideos = (data) => {

@@ -19,6 +19,10 @@ describe('pubsub', () => {
 			expect(outcome3).toBeTruthy();
 			expect(outcome4).toBeTruthy();
 		})
+		test('handling of string', () => {
+			const outcome = isApplicableMessage(JSON.stringify(messageFixture1), 'ripper');
+			expect(outcome).toBeTruthy();
+		})
 	});
 
 	describe('buildPayload', () => {

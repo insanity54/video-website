@@ -94,7 +94,7 @@ const doBuildProcess = async () => {
     await doUploadWebsite(dir);
   }
   console.log('build process completed.');
-  publisher.publish(pubsubChannel, buildPayload(workerName, 'Build complete.'));
+  publisher.publish(pubsubChannel, JSON.stringify(buildPayload(workerName, 'Build complete.')));
 }
 
 // build the site when a message is heard on the futureporn:transcoder channel

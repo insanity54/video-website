@@ -85,7 +85,7 @@ const process = async (fileName) => {
   const saveRes = await saveMetadata(metadata);
   console.log(`metadata has been saved to the db`);
   const channel = 'futureporn';
-  await publisher.publish(channel, buildPayload(workerName, videoSrcHash));
+  await publisher.publish(channel, JSON.stringify(buildPayload(workerName, videoSrcHash)));
   console.log(`I emitted ${videoSrcHash} on ${channel}`);
   await doDeleteFile(fileName);
 }
