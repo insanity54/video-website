@@ -1,7 +1,6 @@
 require('dotenv').config();
 const debug = require('debug')('video-website');
 const globby = require('globby');
-const Prevvy = require('prevvy');
 const fetch = require('node-fetch');
 const { pipeline } = require('stream').promises; // requires node >= v15.0.0
 const fs = require('fs');
@@ -67,31 +66,7 @@ const doMergeMetadata = (oldMeta, newMeta) => {
 }
 
 
-// functions
-const doGenerateThumbnails = async (videoPath) => {
-  // videoPath = videoPath.replace(/[\\()$'"\s]/g, '\\$&');
-  debug(`generating a video preview for ${videoPath}`);
-  const pThicc = new Prevvy({
-    input: videoPath,
-    output: `${videoPath}_thicc.png`,
-    width: 128,
-    cols: 5,
-    rows: 5
-  });
-  const pThin = new Prevvy({
-    input: videoPath,
-    output: `${videoPath}_thin.png`,
-    width: 128,
-    cols: 5,
-    rows: 1
-  });
-  const { output: thinPath } = await pThin.generate();
-  const { output: thiccPath } = await pThicc.generate();
-  return {
-    thinPath,
-    thiccPath
-  };
-};
+
 
 
 const doGenerateTitle = (fileName) => {
@@ -204,33 +179,33 @@ const doMinVideoProcess = async (videoPath) => {
   return { videoPath, thiccPath, thinPath };
 }
 
-const doProcessVideo = async (videoPath) => {
-  // 1. upload the file to pinata
-  // 2. generate a video preview image
-  // 3. add the video to the webpage
-  // 4. upload the webpage to neocities
-  // 5. delete the source video
+// const doProcessVideo = async (videoPath) => {
+//   // 1. upload the file to pinata
+//   // 2. generate a video preview image
+//   // 3. add the video to the webpage
+//   // 4. upload the webpage to neocities
+//   // 5. delete the source video
 
-  videoPath = videoPath.split('.').slice(0, -1).join('.');
-  debug(`videoPath is ${videoPath}`);
-  let title = doGenerateTitle(videoPath);
-  let channel = getChannelName(title);
-  let { thiccPath, thinPath } = await doGenerateThumbnails(videoPath);
-  let videoUploadP = doUploadFile(videoPath);
-  let thiccThumbnailUploadP = doUploadFile(thiccPath);
-  let thinThumbnailUploadP = doUploadFile(thinPath);
-  let [videoHash, thiccThumbnailHash, thinThumbnailHash] = await Promise.all([
-    videoUploadP,
-    thiccThumbnailUploadP,
-    thinThumbnailUploadP
-  ]);
-  await savePageMarkdown(channel, title, videoHash, thiccThumbnailHash, thinThumbnailHash);
-  let distPath = await doBuildWebpage();
-  await doUploadWebsite(distPath);
+//   videoPath = videoPath.split('.').slice(0, -1).join('.');
+//   debug(`videoPath is ${videoPath}`);
+//   let title = doGenerateTitle(videoPath);
+//   let channel = getChannelName(title);
+//   let { thiccPath, thinPath } = await doGenerateThumbnails(videoPath);
+//   let videoUploadP = doUploadFile(videoPath);
+//   let thiccThumbnailUploadP = doUploadFile(thiccPath);
+//   let thinThumbnailUploadP = doUploadFile(thinPath);
+//   let [videoHash, thiccThumbnailHash, thinThumbnailHash] = await Promise.all([
+//     videoUploadP,
+//     thiccThumbnailUploadP,
+//     thinThumbnailUploadP
+//   ]);
+//   await savePageMarkdown(channel, title, videoHash, thiccThumbnailHash, thinThumbnailHash);
+//   let distPath = await doBuildWebpage();
+//   await doUploadWebsite(distPath);
 
-  let f = await doDeleteFile([videoPath, thiccPath, thinPath]);
-  console.log(`video processing has completed.`)
-}
+//   let f = await doDeleteFile([videoPath, thiccPath, thinPath]);
+//   console.log(`video processing has completed.`)
+// }
 
 /**
  * DEPRECATED
@@ -337,18 +312,25 @@ const doUploadWebsite = async (distPath) => {
   });
 }
 
+// greetz https://stackoverflow.com/a/1058753/1004931
+function isArray(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+}
+
 // @todo handle a single path
 const doDeleteFile = async (paths) => {
   if (typeof paths === 'undefined') throw new Error('arg1 (paths) passed to doDeleteFile() must be defined. It was undefined.');
-  if (NODE_ENV !== 'production') {
-    return
-  } else {
+  if (isArray(paths)) {
     debug(`deleting the following files:`);
     let unlinkP = paths.map((p) => {
       debug(`  * ${p}`);
       return fsp.unlink(p);
     })
     return Promise.all(unlinkP);
+  } else {
+    // paths is a string
+    debug(`deleting ${paths}`);
+    return fsp.unlink(paths);
   }
 }
 
@@ -364,7 +346,6 @@ module.exports = {
   buildMetadata,
   savePageMarkdown,
   getDateFromTitle,
-  doProcessVideo,
   doMinVideoProcess,
   getChannelName,
   waitForNewVideos,

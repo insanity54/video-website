@@ -28,7 +28,6 @@ const {
   doDownloadFile,
   saveVodData,
   getDateFromTitle,
-  doProcessVideo,
   doMinVideoProcess,
   getChannelName,
   waitForNewVideos,
@@ -40,7 +39,8 @@ const envImport = require('../common/lib/envImport');
 const Promise = require('bluebird');
 
 const {
-  doTranscode360
+  doTranscode360,
+  doGenerateThumbnails
 } = require('../common/lib/transcode');
 
 
@@ -90,26 +90,21 @@ const doSaveMetadata = async (hash, data) => {
   return;
 }
 
-const downloadTranscodeAndUpload = async (hash) => {
-  let file = await doDownloadFile(hash);
-  let tFile = await doTranscode360(file);
-  let tHash = await doUploadFile(tFile);
-  let oldData = await doLoadMetadata(hash);
-  let newData = { video360Hash: tHash };
-  let updated = await doMergeMetadata(oldData, newData);
-  await doSaveMetadata(hash, updated);
-  return hash;
-}
 
-
+/**
+ * @param {Object} vod
+ */
 const transcodeSingleVideo = async (vod) => {
   console.log(`transcoding ${vod.videoSrcHash}`);
   let videoFilePath = await doDownloadFile(vod.videoSrcHash);
   let video360pPath = await doTranscode360(videoFilePath);
+  let { thiccPath, thinPath } = await doGenerateThumbnails(videoFilePath);
   let video360Hash = await doUploadFile(video360pPath);
-  let newData = doMergeMetadata(vod, { video360Hash });
+  let thiccHash = await doUploadFile(thiccPath);
+  let thinHash = await doUploadFile(thinPath);
+  let newData = doMergeMetadata(vod, { video360Hash, thiccHash, thinHash });
   await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
-  await doDeleteFile([videoFilePath, video360pPath]);
+  await doDeleteFile([videoFilePath, video360pPath, thinPath, thiccPath]);
   return publisher.publish(pubsubChannel, JSON.stringify(buildPayload(workerName, video360Hash)));
 }
 
