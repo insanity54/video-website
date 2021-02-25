@@ -98,7 +98,8 @@ const doBuildProcess = async () => {
 }
 
 // build the site when a message is heard on the futureporn:transcoder channel
-subscriber.on('message', async (msg) => {
+subscriber.on('message', async (channel, msg) => {
+  console.log(`got a message. channel:${channel} msg:${msg}`);
   if (!isApplicableMessage(msg, 'transcoder|ripper|scout')) return;
   console.log(`Got message from subscriber. ${msg}`);
   doBuildProcess();

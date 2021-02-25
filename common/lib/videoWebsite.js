@@ -337,6 +337,7 @@ const doUploadWebsite = async (distPath) => {
   });
 }
 
+// @todo handle a single path
 const doDeleteFile = async (paths) => {
   if (typeof paths === 'undefined') throw new Error('arg1 (paths) passed to doDeleteFile() must be defined. It was undefined.');
   if (NODE_ENV !== 'production') {
