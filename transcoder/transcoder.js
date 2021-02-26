@@ -98,17 +98,17 @@ const transcodeSingleVideo = async (vod) => {
   console.log(`transcoding ${vod.videoSrcHash}`);
   let videoFilePath = await doDownloadFile(vod.videoSrcHash);
   let video360pPath = await doTranscode360(videoFilePath);
-  let { thiccPath, thinPath } = await doGenerateThumbnails(videoFilePath);
+  // let { thiccPath, thinPath } = await doGenerateThumbnails(videoFilePath);
   let video360Hash = await doUploadFile(video360pPath);
-  let thiccHash = await doUploadFile(thiccPath);
-  let thinHash = await doUploadFile(thinPath);
-  let newData = doMergeMetadata(vod, { video360Hash, thiccHash, thinHash });
+  // let thiccHash = await doUploadFile(thiccPath);
+  // let thinHash = await doUploadFile(thinPath);
+  let newData = doMergeMetadata(vod, { video360Hash }); // @todo re-add thiccHash, thinHash 
   await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
-  await doDeleteFile([videoFilePath, video360pPath, thinPath, thiccPath]);
+  await doDeleteFile([videoFilePath, video360pPath ]); // @todo delete thinPath, thiccPath
   return publisher.publish(pubsubChannel, JSON.stringify(buildPayload(workerName, video360Hash)));
 }
 
-const transcodeAllVideos = (data) => {
+const transcodeAllVideos = async (data) => {
   // compile a list of datums without a 360p encode
   console.log('here be the data')
   console.log(data);
@@ -123,10 +123,34 @@ const transcodeAllVideos = (data) => {
   return new Promise.mapSeries(joblist, transcodeSingleVideo);
 }
 
+const thumbnailSingleVideo = async (vod) => {
+  console.log(`generating thumbnails for ${vod.videoSrcHash}`);
+  let videoFilePath = await doDownloadFile(vod.videoSrcHash);
+  let { thiccPath, thinPath } = await doGenerateThumbnails(videoFilePath);
+  let thiccHash = await doUploadFile(thiccPath);
+  let thinHash = await doUploadFile(thinPath);
+  let newData = doMergeMetadata(vod, { thiccHash, thinHash });
+  await client.set(`futureporn:vod:${vod.videoSrcHash}`, JSON.stringify(newData));
+  await doDeleteFile([videoFilePath, thinPath, thiccPath]);
+  return publisher.publish(pubsubChannel, JSON.stringify(buildPayload(workerName, vod.videoSrcHash)));  
+}
+
+const thumbnailAllVideos = async (vods) => {
+  // compile a list of datums without either thumbnail
+  const joblist = vods.filter((v) => {
+    return (
+      typeof v.thiccHash === 'undefined' ||
+      typeof v.thinHash === 'undefined' ||
+      v.thiccHash === '' ||
+      v.thinHash === ''
+    )
+  })
+  return new Promise.mapSeries(joblist, thumbnailSingleVideo);
+}
 
 
-const doTranscodeProcess = () => {
-  client
+const getVodObjects = async () => {
+  return client
     .smembers('futureporn:vods')
     .then((hashes) => {
       console.log('here be the hashes')
@@ -149,20 +173,38 @@ const doTranscodeProcess = () => {
         return JSON.parse(r);
       })
     })
-    .then(transcodeAllVideos)
-    .catch((e) => {
-      console.error('there was a problem while finding work via redis.')
-      console.error(e);
-    })
-    .then(() => {
-      console.log('Transcode process complete.')
-    })
 }
+
+
+
+const doTranscodeProcess = async () => {
+  const vods = await getVodObjects();
+  try {
+    await transcodeAllVideos(vods)
+  } catch (e) {
+    console.error('there was a problem while transcoding all videos.');
+    console.error(e);
+  }
+  console.log('Transcode process complete.');
+}
+
+const doThumbnailProcess = async () => {
+  const vods = await getVodObjects();
+  try {
+    await thumbnailAllVideos(vods);
+  } catch (e) {
+    console.error('there was a problem while thumbnailing all videos');
+    console.error(e);;
+  }
+  console.log('Thumbnail process complete.');
+}
+
 
 
 // run
 const main = (async () => {
   // when starting, check with redis to see if there is work
+  await doThumbnailProcess();
   await doTranscodeProcess();
 
   subscriber.on('message', async (msg) => {
