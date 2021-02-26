@@ -32,7 +32,7 @@ const doTranscode360 = (fileName) => {
 // functions
 const doGenerateThumbnails = async (videoPath) => {
   // videoPath = videoPath.replace(/[\\()$'"\s]/g, '\\$&');
-  debug(`generating a video preview for ${videoPath}`);
+  debug(`generating a thumbnail set for ${videoPath}`);
   const pThicc = new Prevvy({
     input: videoPath,
     output: `${videoPath}_thicc.png`,
