@@ -172,45 +172,11 @@ const getChannelName = (title) => {
 
 
 
-const doMinVideoProcess = async (videoPath) => {
-  // 1. generate thumbnails
-  // 2. return with data
-  let { thiccPath, thinPath } = await doGenerateThumbnails(videoPath);
-  return { videoPath, thiccPath, thinPath };
-}
-
-// const doProcessVideo = async (videoPath) => {
-//   // 1. upload the file to pinata
-//   // 2. generate a video preview image
-//   // 3. add the video to the webpage
-//   // 4. upload the webpage to neocities
-//   // 5. delete the source video
-
-//   videoPath = videoPath.split('.').slice(0, -1).join('.');
-//   debug(`videoPath is ${videoPath}`);
-//   let title = doGenerateTitle(videoPath);
-//   let channel = getChannelName(title);
-//   let { thiccPath, thinPath } = await doGenerateThumbnails(videoPath);
-//   let videoUploadP = doUploadFile(videoPath);
-//   let thiccThumbnailUploadP = doUploadFile(thiccPath);
-//   let thinThumbnailUploadP = doUploadFile(thinPath);
-//   let [videoHash, thiccThumbnailHash, thinThumbnailHash] = await Promise.all([
-//     videoUploadP,
-//     thiccThumbnailUploadP,
-//     thinThumbnailUploadP
-//   ]);
-//   await savePageMarkdown(channel, title, videoHash, thiccThumbnailHash, thinThumbnailHash);
-//   let distPath = await doBuildWebpage();
-//   await doUploadWebsite(distPath);
-
-//   let f = await doDeleteFile([videoPath, thiccPath, thinPath]);
-//   console.log(`video processing has completed.`)
-// }
-
 /**
  * DEPRECATED
  */
 const getDateFromTitle = (title) => {
+  console.error("WARNING: getDateFromTitle() is DEPRECATED and will be removed in a future release");
   let o = title.match(dateRegex);
   let date;
   if (!o) {
@@ -346,7 +312,6 @@ module.exports = {
   buildMetadata,
   savePageMarkdown,
   getDateFromTitle,
-  doMinVideoProcess,
   getChannelName,
   waitForNewVideos,
   doMergeMetadata,

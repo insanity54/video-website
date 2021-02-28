@@ -11,7 +11,6 @@ const {
   saveVodData,
   getDateFromTitle,
   doProcessVideo,
-  doMinVideoProcess,
   getChannelName,
   waitForNewVideos,
   buildMetadata,

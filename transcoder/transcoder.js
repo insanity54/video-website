@@ -148,7 +148,6 @@ const thumbnailAllVideos = async (vods) => {
   return new Promise.mapSeries(joblist, thumbnailSingleVideo);
 }
 
-
 const getVodObjects = async () => {
   return client
     .smembers('futureporn:vods')
@@ -176,7 +175,6 @@ const getVodObjects = async () => {
 }
 
 
-
 const doTranscodeProcess = async () => {
   const vods = await getVodObjects();
   try {
@@ -188,6 +186,7 @@ const doTranscodeProcess = async () => {
   console.log('Transcode process complete.');
 }
 
+
 const doThumbnailProcess = async () => {
   const vods = await getVodObjects();
   try {
@@ -198,7 +197,6 @@ const doThumbnailProcess = async () => {
   }
   console.log('Thumbnail process complete.');
 }
-
 
 
 // run

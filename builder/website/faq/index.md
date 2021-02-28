@@ -22,7 +22,7 @@ File servers can come and go, yet the content stays accessible so long as the fi
 
 ### Reason 1. There aren't enough pins.
 
-As a file becomes more popular and more pinned, IPFS enables faster download times because bits of the file are coming from several severs instead of just one.
+As a file becomes more popular and more pinned, IPFS enables faster download times because bits of the file are coming from several servers instead of just one.
 
 As a hobby and a public service, Futureporn provides 1 pin of every video file. Beyond that, it's up to the Science Team!
 
