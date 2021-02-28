@@ -2689,9 +2689,9 @@ pretty@^2.0.0:
     js-beautify "^1.6.12"
 
 prevvy@^2.3.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.4.0.tgz#b8abdc8e8befb4401759acde8c408b893ac3b926"
-  integrity sha512-KJfIu+Fq/8CHydhf14wJDuwdJ1QnxJAbMxMtKGqc9i2k3vPgJiIvC3m9wsDazXF6goC7PfxidaMk289XkC+zgA==
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/prevvy/-/prevvy-2.4.1.tgz#81076a86520c6b4a129bd2233ce716c5c96938e0"
+  integrity sha512-vHOZAOOm+64KdcqTKBN+I44IhG1BO7CtRIxUjLgNgP1q5X6p1DFt+UK/RxluZhlEcjGL/U5GYU7NWMklpKEfqQ==
   dependencies:
     bluebird "^3.7.2"
     fluent-ffmpeg "^2.1.2"
