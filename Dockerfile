@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:3.3-alpine
+FROM jrottenberg/ffmpeg:4.1-alpine
 FROM node:15-alpine
 
 # set the timezone
