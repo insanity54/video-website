@@ -21,7 +21,7 @@ const isApplicableMessage = (message, matchPattern) => {
 
 	if (typeof m.worker === 'undefined') {
 		console.error('WARNING!!! message.worker was undefined which makes the message an invalid message object for futureporn schema');
-		console.error(message);
+		console.error(`INVALID_MESSAGE:'${message}'`);
 		return false;
 	}
 
