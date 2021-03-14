@@ -15,4 +15,6 @@ if (f === 'ripper') {
 	require('./backup/backup');
 } else if (f === 'analyzer') {
 	require('./analyzer/analyzer');
+} else if (f === 'scout') {
+	require('./scout/scout');
 }
