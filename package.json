@@ -31,7 +31,8 @@
     "deploy:builder": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-builder",
     "deploy:ripper": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-ripper",
     "deploy:backup": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-backup",
-    "deploy:transcoder": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-transcoder"
+    "deploy:transcoder": "caprover deploy --caproverName captain-01 --branch main --appName futureporn-transcoder",
+    "deploy:scout": "caprover deploy --caprovername captain-01 --branch main --appName futureporn-scout"
   },
   "repository": {
     "type": "git",
