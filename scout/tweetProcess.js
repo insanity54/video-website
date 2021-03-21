@@ -1,3 +1,7 @@
+
+const projektMelodyTwitterId = '1148121315943075841';
+
+
 const deriveTitle = (text) => {
 	// greetz https://www.urlregex.com/
 	const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/g;
@@ -15,25 +19,24 @@ const getFullTweetText = (tweet) => {
 	else return tweet.text;
 }
 
+
+/**
+ * Does stuff with filtered tweets. (side-effects)
+ */
 const processTweet = (tweet) => {
 	console.log('>>> Processing Tweet');
-	console.log(tweet);
-	let tweetId = tweet.id_str;
-	let tweetText = getFullTweetText(tweet);
-	let date = tweet.timestamp_ms;
-	let screenName = tweet.user.screen_name;
-	let announceUrl = `https://twitter.com/${screenName}/status/${tweetId}`;
-	let announceTitle = deriveTitle(tweetText);
-	console.log(`announceTitle: ${announceTitle}`);
-	console.log(`announceUrl: ${announceUrl}`);
-	return {
-		tweetId,
-		tweetText,
-		date,
-		screenName,
-		announceUrl,
-		announceTitle
-	};
+	if (tweet.user.id !== projektMelodyTwitterId) return;
+	else {
+		console.log(tweet);
+		let tweetId = tweet.id_str;
+		let tweetText = getFullTweetText(tweet);
+		let date = tweet.timestamp_ms;
+		let screenName = tweet.user.screen_name;
+		let announceUrl = `https://twitter.com/${screenName}/status/${tweetId}`;
+		let announceTitle = deriveTitle(tweetText);
+		console.log(`announceTitle: ${announceTitle}`);
+		console.log(`announceUrl: ${announceUrl}`);
+	}
 }
 
 

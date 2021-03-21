@@ -24,10 +24,9 @@ var client = new Twitter({
 
 const parameters = {
 	follow: [
-		// ...chattyUserIds
 		projektMelodyTwitterId
-	]
-	// track: "chaturbate.com/in"
+	],
+	track: "chaturbate.com/in"
 }
 
 
