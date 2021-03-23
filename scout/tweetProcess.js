@@ -24,9 +24,9 @@ const getFullTweetText = (tweet) => {
  * Does stuff with filtered tweets. (side-effects)
  */
 const processTweet = (tweet) => {
-	console.log('>>> Processing Tweet');
 	if (tweet.user.id !== projektMelodyTwitterId) return;
 	else {
+		console.log('>>> Processing Tweet');
 		console.log(tweet);
 		let tweetId = tweet.id_str;
 		let tweetText = getFullTweetText(tweet);
@@ -36,6 +36,7 @@ const processTweet = (tweet) => {
 		let announceTitle = deriveTitle(tweetText);
 		console.log(`announceTitle: ${announceTitle}`);
 		console.log(`announceUrl: ${announceUrl}`);
+		// @TODO add a handler... Logic that puts the announceTitle & announceUrl into the db
 	}
 }
 
