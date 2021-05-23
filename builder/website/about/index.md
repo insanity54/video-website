@@ -7,6 +7,12 @@ eleventyNavigation:
   order: 3
 ---
 
+## Futureporn is shutting down
+
+See https://twitter.com/cj_crispy/status/1396269457304031234
+
+## About
+
 FuturePorn is an unofficial [ProjektMelody][1] fan website which uses a cutting-edge file server designed to eliminate 404s and enable efficient Inter-Planetary file transfers.
 
 ## Why this website exists

@@ -24,8 +24,12 @@ const getFullTweetText = (tweet) => {
  * Does stuff with filtered tweets. (side-effects)
  */
 const processTweet = (tweet) => {
-	if (tweet.user.id !== projektMelodyTwitterId) return;
-	else {
+	// console.log(`processTweet() is as follows \n${JSON.stringify(tweet, 0, 2)}`);
+	const id = (tweet.id || tweet.user.id);
+	if (id !== projektMelodyTwitterId) {
+		console.log(`ignoring tweet from ${tweet.user.name}: ${tweet.text.slice(0, 25)}...`);
+		return;
+	} else {
 		console.log('>>> Processing Tweet');
 		console.log(tweet);
 		let tweetId = tweet.id_str;
