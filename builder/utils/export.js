@@ -49,6 +49,7 @@ const downloadFromIPFS = async (hash, localFilePath) => {
 		try {
 			await downloadFromIPFS(videoSrcHash, pathOnDisk);
 			await uploadToBB2('futureporn', pathOnDisk, fileName);
+			await execa('rm', [pathOnDisk], { stdio: 'inherit' });
 		} catch (e) {
 			console.error('problem while downloading from IPFS or uploading to BB2. Error is as follows.');
 			console.error(e);
