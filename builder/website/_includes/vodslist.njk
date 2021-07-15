@@ -1,31 +1,43 @@
-<ol reversed class="vodlist" style="counter-reset: start-from {{ (vodslistCounter or vodslist.length) + 1 }}">
-{% for vod in vodslist | reverse %}
-  <li class="vodlist-item{% if vod.url == url %} vodlist-item-active{% endif %}">
-    <a href="{{ vod.url | url }}" class="vodlist-link">
-      {% if vod.data.announceTitle %}
-        {{ vod.data.announceTitle | urlDecode | head(55) }}
-      {% elseif vod.data.title %}
-        {{ vod.data.title }}
-      {% else %}
-        <code>{{ vod.url }}</code>
-      {% endif %}
-    </a>
-    <time class="postlist-date" datetime="{{ vod.data.date | htmlDateString }}">{{ vod.data.date | readableDate }}</time>
-      <br>
-      <a href="{{ vod.url | url }}" class="vodlist-link">
-        {% if vod.data.thinHash %}
-          <img class="preview-image" src="{% buildIpfsUrl vod.data.thinHash %}"/>
-        {% else %}
-          <div class="no-preview-image"></div>
-        {% endif %}
-      </a>
-    <time class="vodlist-date" datetime="{{ vod.date | htmlDateString }}">{{ vod.date | readableDate }}</time>
-    {% for tag in vod.data.tags %}
-      {%- if collections.tagList.indexOf(tag) != -1 -%}
-      {% set tagUrl %}/tags/{{ tag }}/{% endset %}
-      <a href="{{ tagUrl | url }}" class="vod-tag">{{ tag }}</a>
-      {%- endif -%}
-    {% endfor %}
-  </li>
-{% endfor %}
-</ol>
+
+    <table class="table">
+      <thead>
+          <tr>
+            <th>Date</th>
+            <th>Video</th>
+            <th>Thumbnail</th>
+            <th>Annouce Title</th>
+            <th>Annouce URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for vod in vodslist | reverse %}
+          <tr>
+            <td>{{ vod.data.date | htmlDateString }}</td>
+            
+
+            <td>
+              {% if vod.data.videoSrcHash %}
+                <a href="{% buildIpfsUrl vod.data.videoSrcHash %}">video</a>
+              {% else %}
+                <a href="{{ vod.data.videoSrc }}">video</a>
+              {% endif %}
+            </td>
+
+
+            <td>
+              {% if vod.data.thiccHash %}
+                <a href="{% buildIpfsUrl vod.data.thiccHash %}">thumbnail</a>
+              {% else %}
+                <p>none</p>
+              {% endif %}
+              </td>
+
+
+
+            <td>{{ vod.data.announceTitle }}</td>
+            <td><a href="{{ vod.data.announceUrl }}">announce</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+    </table>
