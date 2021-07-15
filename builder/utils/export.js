@@ -4,7 +4,7 @@ const globby = require('globby');
 const matter = require('gray-matter');
 const fsp = require('fs').promises;
 const execa = require('execa');
-
+const { format } = require('date-fns');
 
 const getVodsAsJson = async () => {
 	let list = [];
@@ -42,8 +42,9 @@ const downloadFromIPFS = async (hash, localFilePath) => {
 	console.log(bb2lessVods)
 	for await (vod of vods) {
 		const { date, videoSrcHash } = vod.data;
-		console.log(`processing vod from ${date}`)
-		const fileName = `projektmelolody-chaturbate-${date}.mp4`;
+		const formattedDate = format(date, 'yyyy-MM-dd')
+		console.log(`processing vod from ${formattedDate}`)
+		const fileName = `projektmelody-chaturbate-${formattedDate}.mp4`;
 		const pathOnDisk = `/tmp/${fileName}`;
 
 		try {

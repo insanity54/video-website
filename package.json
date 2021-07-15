@@ -52,6 +52,7 @@
     "@grimtech/envimport": "^0.0.1",
     "clean-css": "^4.2.3",
     "concurrently": "^5.3.0",
+    "date-fns": "^2.22.1",
     "debug": "^4.3.1",
     "decode-uri-component": "^0.2.0",
     "dotenv": "^8.2.0",
